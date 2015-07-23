@@ -61,13 +61,14 @@ public class MainActivity extends Activity {
     txtString = (TextView) findViewById(R.id.txtString);
     txtStringLength = (TextView) findViewById(R.id.testView1);
 
-    // Set up onClick listeners for buttons to send 1 or 0 to turn on/off LED
+    //Set ViewGraph button to be able to navigate to Readings page
     viewGraph.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
-            //Navigate to the 'readings_list' page
+            startActivity(new Intent(getApplicationContext(), ReadingsActivity.class));
         }
     });
 
+    //Set MeasureUV button to be able to request a reading from Arduino
     measureUV.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
             mConnectedThread.write("1");    // Send "1" via Bluetooth
