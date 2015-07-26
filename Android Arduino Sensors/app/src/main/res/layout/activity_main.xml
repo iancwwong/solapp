@@ -24,25 +24,14 @@
         android:text=""
         android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/measureUV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Measure UV"
-        android:layout_alignBaseline="@+id/sync"
-        android:layout_alignBottom="@+id/sync"
-        android:layout_toLeftOf="@+id/sync"
-        android:layout_toStartOf="@+id/sync" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Current Reading = ????"
         android:id="@+id/uvLevel"
-        android:layout_above="@+id/measureUV"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp" />
+        android:layout_below="@+id/uvFeedback"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,26 +41,39 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Graph"
-        android:id="@+id/sync"
-        android:layout_marginBottom="181dp"
-        android:layout_above="@+id/testView1"
-        android:layout_toRightOf="@+id/uvFeedback"
-        android:layout_toEndOf="@+id/uvFeedback" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/testView1"
+        android:weightSum="1"
+        android:layout_alignTop="@+id/txtString">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/valuesList"
-        android:layout_below="@+id/measureUV"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/testView1" />
+        <Button
+            android:id="@+id/measureUV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Measure UV"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/uvFeedback"
+            android:layout_toStartOf="@+id/uvFeedback" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sync"
+            android:id="@+id/sync"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Graph"
+            android:id="@+id/viewGraph"
+            android:layout_above="@+id/testView1"
+            android:layout_toRightOf="@+id/uvFeedback"
+            android:layout_toEndOf="@+id/uvFeedback" />
+
+    </LinearLayout>
 
 </RelativeLayout>

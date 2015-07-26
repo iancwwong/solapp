@@ -1,9 +1,20 @@
 package com.example.arduinosensors;
  
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.UUID;
+import java.util.Vector;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,24 +22,18 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//Debugging
-
   
 public class MainActivity extends Activity {
     
-  Button measureUV, viewGraph;
+  Button measureUV, viewGraph, sync;
   TextView txtArduino, txtString, txtStringLength, sensorView, uvLevel, uvFeedback;
   Handler bluetoothIn;
-
-    //For debugging
-    TextView valuesList;
 
   final int handlerState = 0;        				 //used to identify handler message
   private BluetoothAdapter btAdapter = null;
@@ -39,6 +44,9 @@ public class MainActivity extends Activity {
     
   // SPP UUID service - this should work for most devices
   private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+  // EXTRA string to send on to page for readings viewing
+  public static String EXTRA_DEVICE_ADDRESS = "device_address";
   
   // String for MAC address
   private static String address;
@@ -48,32 +56,42 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
   
     setContentView(R.layout.activity_main);
-  
-    //Link the buttons and textViews to respective views 
-    measureUV = (Button) findViewById(R.id.measureUV);
+
+    //Retrieve bluetooth device info from DeviceListActivity intent
+    Intent intent = getIntent();
+    address = intent.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+
+    //Link the buttons and textViews to respective views
     uvLevel = (TextView) findViewById(R.id.uvLevel);
     uvFeedback = (TextView) findViewById(R.id.uvFeedback);
 
-    //Debugging
-    valuesList = (TextView) findViewById(R.id.valuesList);
-
-    viewGraph = (Button) findViewById(R.id.sync);
-    txtString = (TextView) findViewById(R.id.txtString);
-    txtStringLength = (TextView) findViewById(R.id.testView1);
-
-    //Set ViewGraph button to be able to navigate to Readings page
-    viewGraph.setOnClickListener(new OnClickListener() {
-        public void onClick(View v) {
-            startActivity(new Intent(getApplicationContext(), ReadingsActivity.class));
-        }
-    });
-
     //Set MeasureUV button to be able to request a reading from Arduino
+    measureUV = (Button) findViewById(R.id.measureUV);
     measureUV.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
             mConnectedThread.write("1");    // Send "1" via Bluetooth
             Toast.makeText(getBaseContext(), "Measure UV", Toast.LENGTH_SHORT).show();
 
+        }
+    });
+
+    //Set ViewGraph button to be able to navigate to Readings page
+    viewGraph = (Button) findViewById(R.id.viewGraph);
+    viewGraph.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(MainActivity.this, ReadingsActivity.class);
+            i.putExtra(EXTRA_DEVICE_ADDRESS, getIntent().getStringExtra(ReadingsActivity.EXTRA_DEVICE_ADDRESS)); //pass the currently connected device
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
+    });
+
+    //Set the sync button to be able to request logged readings from arduino
+    sync = (Button) findViewById(R.id.sync);
+    sync.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            mConnectedThread.write("0");
+            Toast.makeText(getBaseContext(), "Logs Requested", Toast.LENGTH_SHORT).show();
         }
     });
 
@@ -87,31 +105,27 @@ public class MainActivity extends Activity {
                 if (EOLIndexMulti > 0) {
                     //Multiple values requested
                     String dataInPrint = recDataString.substring(0, EOLIndexMulti);    // extract string
-                    txtString.setText("Data Received = " + dataInPrint);           		
-                    int dataLength = dataInPrint.length();							//get length of data received
-                    txtStringLength.setText("String Length = " + String.valueOf(dataLength));
-                    
-                    if (recDataString.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
-                    {
-                    	String sensor = recDataString.substring(1, dataLength);
+                    int dataLength = dataInPrint.length();
+                    if (recDataString.charAt(0) == '#')	{
+                        //A valid message - extract each UV reading from string
+                        String readingsString = recDataString.substring(1, dataLength);
+                        Vector<String> readings = new Vector<String>(Arrays.asList(
+                                readingsString.split("\\+"))
+                        );
 
-                        //Debugging
-                        CharSequence oldValuesList = valuesList.getText();
-                        String newValuesList = oldValuesList.toString();
-                        newValuesList += "\n";
-                        newValuesList += sensor;
-                        valuesList.setText(newValuesList);
+                        //Construct file name based on current date
+                        String fileName = getCurrDate() + ".readings";
+
+                        //Write the readings to a file in internal storage
+                        writeReadingsToFile(fileName, readings);
 
                     }
-                    recDataString.delete(0, recDataString.length()); 					//clear all string data 
+                    recDataString.delete(0, recDataString.length()); 					//clear all string data
                    // strIncom =" ";
                     dataInPrint = " ";
                 } else if(EOLIndexSingle > 0) { // single measurement was received
                     String dataInPrint = recDataString.substring(0, EOLIndexSingle);
-                    txtString.setText("Data Received = " + dataInPrint);
-                    int dataLength = dataInPrint.length();                            //get length of data received
-                    txtStringLength.setText("String Length = " + String.valueOf(dataLength));
-
+                    int dataLength = dataInPrint.length();
                     if (recDataString.charAt(0) == '#')                                //if it starts with # we know it is what we are looking for
                     {
                         String sensor = recDataString.substring(1, 5);
@@ -128,11 +142,6 @@ public class MainActivity extends Activity {
       
     btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
     checkBTState();
-
-    //Have some initial data of UV level and UV feedback when app is started
-    mConnectedThread.write("1");
-
-
   }
 
    
@@ -156,6 +165,7 @@ public class MainActivity extends Activity {
     BluetoothDevice device = btAdapter.getRemoteDevice(address);
      
     try {
+
         btSocket = createBluetoothSocket(device);
     } catch (IOException e) {
     	Toast.makeText(getBaseContext(), "Socket creation failed", Toast.LENGTH_LONG).show();
@@ -258,6 +268,112 @@ public class MainActivity extends Activity {
             }
         }
   }
+
+    // ## HELPER FUNCTIONS
+
+    //Write to a given file, UV readings with corresponding timestamps
+    // (1 line in file = 1 reading in vector)
+    public void writeReadingsToFile(String fileName, Vector<String> readings) {
+        String timestamp = "";
+
+        //Create and write the readings array to file stored in internal storage
+        try {
+            File readingsFile = new File(this.getApplicationContext().getFilesDir(), fileName);
+
+            if (!readingsFile.exists()) {
+                //First sync: time = current time
+                readingsFile.createNewFile();
+                timestamp = getCurrTime();
+            } else {
+                //A sync has already been  made this day: time = most recently recorded timestamp + 1 min
+                Vector<String> readingsFileData = readFile(fileName);
+                String[] extractedData = readingsFileData.get(readingsFileData.size()-1).split(",");
+                timestamp = incrementTime(extractedData[1],1);
+            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(readingsFile, true)); //append
+            for (String reading : readings) {
+                writer.write(reading + "," + timestamp);
+                writer.newLine();
+                timestamp = incrementTime(timestamp,1);
+            }
+            writer.close();
+        } catch (IOException e) {
+            Log.e("ianwong.test", "Unable to write to file");
+        }
+
+    }
+
+    //Read from a given file and return read data as a vector of strings
+    // (1 file line = 1 vector)
+    public Vector<String> readFile(String fileName) {
+        Vector<String> dataRead = new Vector<String>();
+
+        //Open and read file
+        try {
+            //File is read using InputStreamReader. Buffered reader stores bytes read by
+            // InputStreamReader into the buffer -> more efficient
+            FileInputStream fileIn = this.openFileInput(fileName);
+            InputStreamReader fileReader = new InputStreamReader(fileIn);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            String currLine = reader.readLine();
+            while (currLine != null) {
+                dataRead.add(currLine);
+                currLine = reader.readLine();
+            }
+        } catch (IOException e) {
+            Log.e("ianwong.test", "Unable to read file");
+        }
+        return dataRead;
+    }
+
+    //Returns the current date as a string in the format: "yy-mm-dd"
+    String getCurrDate() {
+        final Calendar cal = Calendar.getInstance();
+        int dd = cal.get(Calendar.DAY_OF_MONTH);
+        int mm = cal.get(Calendar.MONTH);
+        int yy = cal.get(Calendar.YEAR);
+        StringBuilder dateStr = new StringBuilder().append(yy).append("-").append(mm + 1).append("-").append(dd);
+        return dateStr.toString();
+    }
+
+    //Returns the current time as a string in the format: "HH:MM"
+    String getCurrTime() {
+        final Calendar cal = Calendar.getInstance();
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int min = cal.get(Calendar.MINUTE);
+
+        //Format hour and minute
+        DecimalFormat formatter = new DecimalFormat("00");
+        StringBuilder timeStr = new StringBuilder()
+                .append(formatter.format(hour)).append(":")
+                .append(formatter.format(min));
+        return timeStr.toString();
+    }
+
+    //Given a time, increase it by specific hours and minutes.
+    // NOTE: Does NOT consider overnight cases, ie when hours exceed 24
+    String incrementTime(String currTime, int min) {
+        //Process currTime into hours and minutes, and calculate individually
+        String[] timeUnits = currTime.split(":");
+        int newMin = Integer.parseInt(timeUnits[1]);
+        int newHour = Integer.parseInt(timeUnits[0]);
+
+        //Add the minutes first BEFORE hours (carries over to hour)
+        newMin = Integer.parseInt(timeUnits[1]) + min;
+        if (newMin >= 60) {
+            newMin = newMin % 60;
+            newHour = newHour + 1;
+        }
+
+        //Format hour and minute
+        DecimalFormat formatter = new DecimalFormat("00");
+        StringBuilder newTimeStr = new StringBuilder()
+                .append(formatter.format(newHour)).append(":")
+                .append(formatter.format(newMin));
+        return newTimeStr.toString();
+    }
+
 
     //Based on a given UV value, provide more feedback to the user
     public String getFeedback(String sensorReading) {

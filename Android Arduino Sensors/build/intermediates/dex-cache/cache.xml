@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\Ian\Desktop\Android Arduino Sensors\app\libs\mpandroidchartlibrary-2-1-2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5174e30c198a42ab59241ab8a89d9b5b9c3c909d">
+        <dex dex="C:\Users\Ian\Desktop\Android Arduino Sensors\app\build\intermediates\pre-dexed\debug\mpandroidchartlibrary-2-1-2-04ea1241df11d0c136df0c0fbf3f5b7250f8b82c.jar" />
+    </item>
+    <item
         jar="C:\Users\Ian\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
         jumboMode="false"
         revision="22.0.1"

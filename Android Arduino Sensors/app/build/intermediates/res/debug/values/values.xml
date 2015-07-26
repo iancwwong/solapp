@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/C:/Users/Ian/Desktop/Android%20Arduino%20Sensors/app/src/main/res/values/color.xml -->
+    <eat-comment/>
+    <color name="line_color">#ff444444</color>
     <!-- From: file:/C:/Users/Ian/Desktop/Android%20Arduino%20Sensors/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
