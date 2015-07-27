@@ -9,72 +9,110 @@
     android:background="@drawable/sky"
     >
 
-    <TextView
-        android:id="@+id/testView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txtString"
-        android:text=""
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/txtString"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/testView1"
-        android:layout_alignParentBottom="true"
-        android:text=""
-        android:textSize="15sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Current Reading = ????"
-        android:id="@+id/uvLevel"
-        android:layout_below="@+id/uvFeedback"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/uvFeedback"
-        android:layout_above="@+id/measureUV"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
-
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@+id/testView1"
-        android:weightSum="1"
-        android:layout_alignTop="@+id/txtString">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout"
+        android:weightSum="1">
 
-        <Button
-            android:id="@+id/measureUV"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Measure UV"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/uvFeedback"
-            android:layout_toStartOf="@+id/uvFeedback" />
+            android:weightSum="1"
+            android:layout_weight="0.38">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sync"
-            android:id="@+id/sync"
-            android:layout_weight="1" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:id="@+id/uvLevel"
+                    android:layout_weight="0.94" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Current Reading"
+                    android:id="@+id/uvLevelLabel"
+                    android:textAlignment="center"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0"
+                    android:id="@+id/percExposed"
+                    android:layout_weight="1.01" />
+
+                <TextView
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Your total exposure"
+                    android:id="@+id/percExposedLabel"
+                    android:clickable="false"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="169dp"
+            android:layout_weight="0.60"
+            android:id="@+id/spacing"
+            android:contentDescription="THIS LAYOUT IS FOR SPACING ADJUSTMENT ONLY"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Graph"
-            android:id="@+id/viewGraph"
-            android:layout_above="@+id/testView1"
-            android:layout_toRightOf="@+id/uvFeedback"
-            android:layout_toEndOf="@+id/uvFeedback" />
+            android:weightSum="1"
+            android:layout_alignRight="@+id/linearLayout"
+            android:layout_alignEnd="@+id/linearLayout">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Measure UV"
+                android:id="@+id/measureUV"
+                android:layout_gravity="bottom" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sync"
+                android:id="@+id/sync"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.98" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Graph"
+                android:id="@+id/viewGraph"
+                android:layout_gravity="bottom" />
+        </LinearLayout>
 
     </LinearLayout>
 

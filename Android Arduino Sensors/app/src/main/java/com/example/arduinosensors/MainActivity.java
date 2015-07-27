@@ -30,11 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
   
 public class MainActivity extends Activity {
-    
+
+  //UI Components
   Button measureUV, viewGraph, sync;
-  TextView txtArduino, txtString, txtStringLength, sensorView, uvLevel, uvFeedback;
+  TextView uvLevel, percExposed;
   Handler bluetoothIn;
 
+  //BT attributes
   final int handlerState = 0;        				 //used to identify handler message
   private BluetoothAdapter btAdapter = null;
   private BluetoothSocket btSocket = null;
@@ -51,19 +53,31 @@ public class MainActivity extends Activity {
   // String for MAC address
   private static String address;
 
+  //Other Constants
+  public static final int RECOMMENDED_EXPOSURE = 150;
+
 @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-  
     setContentView(R.layout.activity_main);
 
     //Retrieve bluetooth device info from DeviceListActivity intent
     Intent intent = getIntent();
     address = intent.getStringExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 
-    //Link the buttons and textViews to respective views
+    //LINK UI COMPONENTS
+
+    //TextViews
     uvLevel = (TextView) findViewById(R.id.uvLevel);
-    uvFeedback = (TextView) findViewById(R.id.uvFeedback);
+    uvLevel.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            Toast.makeText(getBaseContext(), "fdbck presented", Toast.LENGTH_SHORT).show();
+        }
+    });
+
+    percExposed = (TextView) findViewById(R.id.percExposed);
+    //initialise the value of percExposed
+    updatePercExposed();
 
     //Set MeasureUV button to be able to request a reading from Arduino
     measureUV = (Button) findViewById(R.id.measureUV);
@@ -119,6 +133,8 @@ public class MainActivity extends Activity {
                         //Write the readings to a file in internal storage
                         writeReadingsToFile(fileName, readings);
 
+                        //Update the total perc exposed on the UI
+                        updatePercExposed();
                     }
                     recDataString.delete(0, recDataString.length()); 					//clear all string data
                    // strIncom =" ";
@@ -129,8 +145,7 @@ public class MainActivity extends Activity {
                     if (recDataString.charAt(0) == '#')                                //if it starts with # we know it is what we are looking for
                     {
                         String sensor = recDataString.substring(1, 5);
-                        uvLevel.setText("Current UV level = " + sensor);
-                        uvFeedback.setText(getFeedback(sensor));
+                        uvLevel.setText(sensor);
                     }
                     recDataString.delete(0, recDataString.length());                    //clear all string data
                     // strIncom =" ";
@@ -271,6 +286,40 @@ public class MainActivity extends Activity {
 
     // ## HELPER FUNCTIONS
 
+    //Update the percentage exposed textview by recalculating the formula:
+    // % exposed = (Total Accumulated Exposure) / (Recommended Exposure)
+    public void updatePercExposed() {
+        Double percExposedValue = getTotalExposure() / RECOMMENDED_EXPOSURE * 100;
+
+        //format the result to 2dp
+        DecimalFormat formatter = new DecimalFormat("#.00");
+
+        percExposed.setText(String.valueOf(formatter.format(percExposedValue)) + "%");
+    }
+
+    //Calculate the total exposure of the day by opening the corresponding file
+    // and accumulating all the readings
+    Double getTotalExposure() {
+        Double totalExposure = 0.0;
+
+        //Open the file corr to the current day
+        String fileName = getCurrDate() + ".readings";
+        Vector<String> dataRead = readFile(fileName);
+
+        //Calculate the total
+        if (dataRead.size() != 0) {
+            for (String line : dataRead) {
+                String[] processed = line.split(",");
+                totalExposure = totalExposure + Double.parseDouble(processed[0]);
+            }
+        } else {
+            //No loggings recorded in file OR file doesn't exist
+            // Do nothing - keep totalExposure to 0
+        }
+
+        return totalExposure;
+    }
+
     //Write to a given file, UV readings with corresponding timestamps
     // (1 line in file = 1 reading in vector)
     public void writeReadingsToFile(String fileName, Vector<String> readings) {
@@ -322,7 +371,7 @@ public class MainActivity extends Activity {
                 currLine = reader.readLine();
             }
         } catch (IOException e) {
-            Log.e("ianwong.test", "Unable to read file");
+            //do nothing
         }
         return dataRead;
     }
