@@ -292,7 +292,7 @@ public class MainActivity extends Activity {
         Double percExposedValue = getTotalExposure() / RECOMMENDED_EXPOSURE * 100;
 
         //format the result to 2dp
-        DecimalFormat formatter = new DecimalFormat("#.00");
+        DecimalFormat formatter = new DecimalFormat("0.##");
 
         percExposed.setText(String.valueOf(formatter.format(percExposedValue)) + "%");
     }
