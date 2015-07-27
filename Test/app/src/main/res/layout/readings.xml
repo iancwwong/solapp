@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="514dp"
+        android:layout_gravity="center_vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="0.01"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="52dp"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:id="@+id/backHome"
+                android:layout_weight="0.15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="68dp"
+                android:layout_height="wrap_content"
+                android:text="&lt;"
+                android:id="@+id/prevWeek"
+                android:gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Weekly Exposure"
+                android:id="@+id/textView"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <Button
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:text=">"
+                android:id="@+id/nextWeek" />
+        </LinearLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="319dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High"
+                android:id="@+id/graphHighToggle"
+                android:checked="true" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moderate"
+                android:id="@+id/graphModToggle"
+                android:checked="true" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Safe"
+                android:id="@+id/graphLowToggle"
+                android:checked="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

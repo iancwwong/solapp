@@ -2,10 +2,12 @@ package ianwong.test;
 
 //Essential
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 
 //Debugging
 import android.util.Log;
@@ -49,6 +51,7 @@ public class MainActivity extends Activity {
     //UI components
     private TextView textBox;
     private Button writeButton;
+    private Button viewGraph;
     private Spinner readingsFiles;
 
     //Backend data variables
@@ -140,14 +143,17 @@ public class MainActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
                 //Do nothing
             }
-        }
+        });
 
-        );
-
-
-
-
-
+        //Navigate to next page
+        viewGraph = (Button) findViewById(R.id.viewGraph);
+        viewGraph.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ReadingsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
 
     }
 
