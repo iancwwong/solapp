@@ -54,17 +54,17 @@
             android:gravity="center">
 
             <Button
-                android:layout_width="68dp"
+                android:layout_width="59dp"
                 android:layout_height="wrap_content"
                 android:text="&lt;"
-                android:id="@+id/prevWeek"
+                android:id="@+id/prevDate"
                 android:gravity="center_vertical" />
 
             <TextView
                 android:layout_width="141dp"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/modeName"
+                android:id="@+id/datesLabel"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:layout_weight="0.45" />
@@ -73,7 +73,7 @@
                 android:layout_width="62dp"
                 android:layout_height="wrap_content"
                 android:text=">"
-                android:id="@+id/nextWeek" />
+                android:id="@+id/nextDate" />
         </LinearLayout>
 
         <com.github.mikephil.charting.charts.LineChart

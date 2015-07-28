@@ -41,16 +41,26 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
 public class MainActivity extends FragmentActivity {
 
     //UI components
-    private TextView textBox;
     private Button writeButton;
     private Button viewGraph;
     private Spinner readingsFiles;
+    private LineChart chart;
 
     //Backend data variables
     ArrayAdapter<String> readingsListElements;
+
+    //Debugging
+    private TextView textBox;
+    private Button createSummaries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,8 @@ public class MainActivity extends FragmentActivity {
         updateReadingsDropdown();
 
         //Initialise UI components
+
+        chart = (LineChart) findViewById(R.id.chart);
 
         //Writes data from a vector to a file
         writeButton = (Button) findViewById(R.id.writeButton);
@@ -94,6 +106,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 readingsFiles.setSelection(position); //change selected to the one clicked
+                //drawDailyReadingsGraph((String) parent.getItemAtPosition(position));
+                displayReadingsData((String) parent.getItemAtPosition(position));
             }
 
             @Override
@@ -113,6 +127,36 @@ public class MainActivity extends FragmentActivity {
         });
 
         //Swipe component
+
+        //Debugging
+        //This button is responsible for:
+        // creating a summary file for each ".readings" file
+        // EXCEPT the one that corresponds to the current date
+        createSummaries = (Button) findViewById(R.id.createSummaries);
+        createSummaries.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //retrieve a list of all ".readings" files
+                ArrayList<String> allFiles = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+                ArrayList<String> readingsFiles = new ArrayList<String>();
+                for (String filename : allFiles) {
+                    if (filename.contains(".readings")) {
+                        String date = filename.replace(".readings","");
+                        readingsFiles.add(date);
+                    }
+                }
+
+                //Remove the .readings file corresponding to current date
+                readingsFiles.remove(new String(getCurrDate()));
+
+                //Construct summary files for each of the remaining dates in "readingsFiles"
+                for (String filename : readingsFiles) {
+                    writeSummaryFile(filename);
+                }
+
+                updateReadingsDropdown();
+            }
+        });
+
 
     }
 
@@ -140,6 +184,43 @@ public class MainActivity extends FragmentActivity {
     }
 
     // ## HELPER FUNCTIONS
+
+    //Draw a line graph from a specified day / file
+    public void drawDailyReadingsGraph(String filename) {
+        //Prepare variables for graph
+        ArrayList<Entry> dayReadings = new ArrayList<Entry>();
+        ArrayList<String> timestamps = new ArrayList<String>();
+
+        //Process each line in the file by extracting reading and corr timestamp
+        //Read the file
+        Vector<String> dataRead = readFile(filename);
+        for (int i = 0; i < dataRead.size(); i++) {
+            String[] processedLine = dataRead.get(i).split(",");
+            dayReadings.add(new Entry(Float.parseFloat(processedLine[0]),i));
+            timestamps.add(processedLine[1]);
+        }
+
+        //Finalise the graph data
+        LineDataSet graphData = new LineDataSet(dayReadings, "");
+
+        // Graphing
+        LineData data = new LineData(timestamps, graphData);
+        chart.setData(data);
+
+        graphData.setColors(new int[]{R.color.line_color}, MainActivity.this);
+        graphData.setLineWidth(3); // min = 0.2f, max = 10f*
+        graphData.setCircleSize(3); // Datapoint size
+        graphData.setCircleColor(getResources().getColor(R.color.line_color));
+        graphData.setValueTextSize(13); // Datapoint text sizes
+        chart.setScaleYEnabled(false); // Don't scroll in y direction
+//                chart.setDrawGridBackground(false);
+        chart.setDescription(""); // Descrip in bot right
+        chart.animateXY(2000, 2000);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
+        chart.getAxisRight().setEnabled(false); //  Disable right yaxis
+        chart.getLegend().setEnabled(false); // Disable legend
+        chart.invalidate(); // Refresh graph
+    }
 
     //Write to a given file, UV readings with corresponding timestamps
     // (1 line in file = 1 reading in vector)
@@ -171,6 +252,69 @@ public class MainActivity extends FragmentActivity {
             Log.e("ianwong.test", "Unable to write to file");
         }
 
+    }
+
+    //Creates a summary file corresponding to a given .readings file
+    // NOTE: Input fileName is a DATE STRING
+    // Format for each line: "[classification],[total exposure],[# readings in this classification]"
+    // Does NOT create a summary file if the given file doesn't exist or invalid type
+    public void writeSummaryFile(String fileName) {
+        try {
+            File readingsFile = new File(this.getApplicationContext().getFilesDir(), fileName + ".readings");
+            if (!readingsFile.exists()) {
+                //No such file for the current ".readings" file - halt the creation
+                // of the corresponding summary file
+                return;
+            }
+            //Construct the summary file name by stripping ".readings" extension
+            String summaryFileName = fileName.split(".readings")[0] + ".summary";
+            File summaryFile = new File(this.getApplicationContext().getFilesDir(), summaryFileName);
+            //if (!summaryFile.exists()) {
+                //Create the summary file that is currently non-existent
+                //Prepare the file and variables for processing into a summary file
+                Vector<String> readData = readFile(fileName + ".readings");
+                Double totalHighExposure = 0.0;
+                Double totalModExposure = 0.0;
+                Double totalLowExposure = 0.0;
+                int highExposureCounts = 0;
+                int modExposureCounts = 0;
+                int lowExposureCounts = 0;
+                for (String line : readData) {
+                    //Split and extract the measurement data
+                    String[] processed = line.split(",");
+                    Double measurement = Double.parseDouble(processed[0]);
+
+                    //Classify the reading, and update the total and count of that classification
+                    if (measurement < 3) {
+                        //low
+                        lowExposureCounts = lowExposureCounts + 1;
+                        totalLowExposure = totalLowExposure + measurement;
+                    } else if (measurement < 8) {
+                        //moderate
+                        modExposureCounts = modExposureCounts + 1;
+                        totalModExposure = totalModExposure + measurement;
+                    } else if (measurement >= 8) {
+                        //high
+                        highExposureCounts = highExposureCounts + 1;
+                        totalHighExposure = totalHighExposure + measurement;
+                    }
+                }
+
+                //Build and write the strings to summary file
+                BufferedWriter writer = new BufferedWriter(new FileWriter(summaryFile, false)); //overwrite
+                DecimalFormat formatter = new DecimalFormat("0.##");
+                writer.write("high," + formatter.format(totalHighExposure) + "," + Integer.toString(highExposureCounts));
+                writer.newLine();
+                writer.write("moderate," + formatter.format(totalModExposure) + "," + Integer.toString(modExposureCounts));
+                writer.newLine();
+                writer.write("low," + formatter.format(totalLowExposure) + "," + Integer.toString(lowExposureCounts));
+                writer.newLine();
+                writer.close();
+
+            //}
+        } catch (IOException e) {
+            Log.e("ianwong.test", "Unable to write to file");
+        }
     }
 
     //Read from a given file and return read data as a vector of strings
@@ -252,6 +396,8 @@ public class MainActivity extends FragmentActivity {
 
         //Construct a list of ONLY UV readings files in internal storage
         List<String> files = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+
+        /*
         //Filter the list of any files that are NOT of type ".readings"
         for (int i = 0; i < files.size(); i++) {
             String fileName = files.get(i);
@@ -260,10 +406,11 @@ public class MainActivity extends FragmentActivity {
                 files.remove(i);
                 i--; //adjust the counter
             } else {
-                //strip the extension - DOES NOT WORK YET
-                fileName = fileName.replace(".readings","");
+                //strip the extension
+                files.get(i).replace(".readings","");
             }
         }
+        */
 
         //Sort the array in DESCENDING order (ie most recent date to oldest)
         Collections.sort(files);
@@ -281,6 +428,7 @@ public class MainActivity extends FragmentActivity {
     //Display the contents of a particular file in a TextView (named "textBox")
     public void displayReadingsData(String fileName) {
         //Ensure textBox is empty
+        textBox = (TextView) findViewById(R.id.textBox);
         textBox.setText("");
 
         //Read and display the contents of file

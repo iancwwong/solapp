@@ -35,7 +35,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="184dp"
+            android:layout_height="wrap_content"
             android:id="@+id/spacing"
             android:weightSum="1"
             android:gravity="center">
@@ -53,6 +53,20 @@
             </FrameLayout>
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView"
+            android:layout_weight="1.07"
+            android:fillViewport="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textBox" />
+        </ScrollView>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -63,6 +77,12 @@
                 android:layout_height="wrap_content"
                 android:text="View Graph"
                 android:id="@+id/viewGraph" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Summaries"
+                android:id="@+id/createSummaries" />
         </LinearLayout>
 
     </LinearLayout>
