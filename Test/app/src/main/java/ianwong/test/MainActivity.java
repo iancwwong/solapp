@@ -3,6 +3,7 @@ package ianwong.test;
 //Essential
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,13 +41,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     //UI components
     private TextView textBox;
@@ -56,7 +51,6 @@ public class MainActivity extends Activity {
 
     //Backend data variables
     ArrayAdapter<String> readingsListElements;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,43 +94,6 @@ public class MainActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 readingsFiles.setSelection(position); //change selected to the one clicked
-
-                //Prepare variables for graph
-                ArrayList<Entry> dayReadings = new ArrayList<Entry>();
-                ArrayList<String> timestamps = new ArrayList<String>();
-
-                //Process each line in the file by extracting reading and corr timestamp
-                //Read the file
-                Vector<String> dataRead = readFile((String) parent.getItemAtPosition(position));
-                for (int i = 0; i < dataRead.size(); i++) {
-                    String[] processedLine = dataRead.get(i).split(",");
-                    dayReadings.add(new Entry(Float.parseFloat(processedLine[0]),i));
-                    timestamps.add(processedLine[1]);
-                }
-
-                //Finalise the graph data
-                LineDataSet graphData = new LineDataSet(dayReadings, "");
-
-                // Graphing
-                LineChart chart = (LineChart) findViewById(R.id.chart);
-                LineData data = new LineData(timestamps, graphData);
-                chart.setData(data);
-
-                graphData.setColors(new int[]{R.color.line_color}, MainActivity.this);
-                graphData.setLineWidth(3); // min = 0.2f, max = 10f
-                graphData.setCircleSize(3); // Datapoint size
-                graphData.setCircleColor(getResources().getColor(R.color.line_color));
-                graphData.setValueTextSize(13); // Datapoint text sizes
-                chart.setScaleYEnabled(false); // Don't scroll in y direction
-//                chart.setDrawGridBackground(false);
-                chart.setDescription(""); // Descrip in bot right
-                chart.animateXY(2000, 2000);
-                chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
-                chart.getAxisRight().setEnabled(false); //  Disable right yaxis
-                chart.getLegend().setEnabled(false); // Disable legend
-                chart.invalidate(); // Refresh graph
-
-
             }
 
             @Override
@@ -154,6 +111,8 @@ public class MainActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        //Swipe component
 
     }
 
@@ -301,7 +260,7 @@ public class MainActivity extends Activity {
                 files.remove(i);
                 i--; //adjust the counter
             } else {
-                //strip the extension
+                //strip the extension - DOES NOT WORK YET
                 fileName = fileName.replace(".readings","");
             }
         }
@@ -332,30 +291,5 @@ public class MainActivity extends Activity {
             //Log.e("test", line);
         }
     }
-
-    // Graphing functions
-
-    private ArrayList<LineDataSet> getLineDataSet() {
-        ArrayList<LineDataSet> dataSets = null;
-        ArrayList<LineDataSet> valueSet1 = new ArrayList<>();
-
-        ArrayList<Entry> day1 = new ArrayList<Entry>();
-        Entry reading1 = new Entry(100.000f, 0);
-        Entry reading2 = new Entry(500.000f, 1);
-        Entry reading3 = new Entry(200.000f, 2);
-        day1.add(reading1);
-        day1.add(reading2);
-        day1.add(reading3);
-
-        LineDataSet object = new LineDataSet(day1, "1");
-        dataSets = new ArrayList<>();
-        dataSets.add(object);
-
-        return dataSets;
-
-    }
-
-
-
 
 }

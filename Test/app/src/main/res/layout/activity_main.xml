@@ -32,10 +32,26 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="319dp" />
+            android:layout_height="184dp"
+            android:id="@+id/spacing"
+            android:weightSum="1"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="156dp"
+                android:layout_height="153dp">
+
+                <android.support.v4.view.ViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

@@ -27,8 +27,31 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="53dp"
             android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="UV Graphs"
+                android:id="@+id/uvGraphsLabel"
+                android:layout_weight="0.83"
+                android:gravity="center" />
+
+            <Spinner
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/graphViewOption"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:gravity="center">
 
             <Button
                 android:layout_width="68dp"
@@ -39,13 +62,12 @@
 
             <TextView
                 android:layout_width="141dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Weekly Exposure"
-                android:id="@+id/textView"
-                android:layout_weight="1"
+                android:id="@+id/modeName"
                 android:textAlignment="center"
-                android:gravity="center" />
+                android:gravity="center"
+                android:layout_weight="0.45" />
 
             <Button
                 android:layout_width="62dp"
@@ -57,7 +79,8 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="319dp" />
+            android:layout_height="269dp"
+            android:layout_weight="0.50" />
 
         <LinearLayout
             android:orientation="horizontal"
