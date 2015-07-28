@@ -318,26 +318,25 @@ public class ReadingsActivity extends Activity {
         //Retrieve all files in the internal storage, each representing 1 day
 
         //Get original list of files, and sort it in desc order
-        ArrayList<String> dates = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
-        //ToDo: Filter list to contain ONLY .readings files
-        if (dates.size() == 0) {
+        ArrayList<String> allFiles = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+        if (allFiles.size() == 0) {
             //There are no readings on the phone
             return new ArrayList<String>();
-        } else if (dates.size() == 1) {
-            //There is only 1 .readings file
-            return dates;
-
         }
-        int newDatesSize = dates.size();
-        for (int i = 0; i < newDatesSize; i++) {
-            //Filter for appropriate files
-            if (!dates.get(i).contains(".readings")) {
-                //file is not of '.readings' type - remove
-                dates.remove(i);
-                i = i - 1;
+
+        //Filter out ONLY ".readings" files
+        ArrayList<String> dates = new ArrayList<String>();
+        for (String filename : allFiles) {
+            if (filename.contains(".readings")) {
+                dates.add(filename);
             }
-            Collections.sort(dates);
-            Collections.reverse(dates);
+        }
+        Collections.sort(dates);
+        Collections.reverse(dates);
+
+        if (dates.size() == 1) {
+            //There is only 1 ".readings" file - immediately return
+            return dates;
         }
 
         //Add in filler dates - start at the most recent date, work towards oldest date
