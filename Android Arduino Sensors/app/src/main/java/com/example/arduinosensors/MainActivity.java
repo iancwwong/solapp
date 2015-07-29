@@ -16,12 +16,15 @@ import java.util.UUID;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -113,9 +116,13 @@ public class MainActivity extends Activity {
         public void handleMessage(android.os.Message msg) {
             if (msg.what == handlerState) {										//if message is what we want
             	String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
-                recDataString.append(readMessage);      								//keep appending to string until ~
+                recDataString.append(readMessage);
+
+                //Determine the type of message received
                 int EOLIndexMulti = recDataString.indexOf("~");                    // determine the end-of-line
                 int EOLIndexSingle = recDataString.indexOf("$");
+                int sunscreenNotification = recDataString.indexOf("&");
+
                 if (EOLIndexMulti > 0) {
                     //Multiple values requested
                     String dataInPrint = recDataString.substring(0, EOLIndexMulti);    // extract string
@@ -137,19 +144,49 @@ public class MainActivity extends Activity {
                         updatePercExposed();
                     }
                     recDataString.delete(0, recDataString.length()); 					//clear all string data
-                   // strIncom =" ";
                     dataInPrint = " ";
                 } else if(EOLIndexSingle > 0) { // single measurement was received
                     String dataInPrint = recDataString.substring(0, EOLIndexSingle);
                     int dataLength = dataInPrint.length();
-                    if (recDataString.charAt(0) == '#')                                //if it starts with # we know it is what we are looking for
-                    {
+                    if (recDataString.charAt(0) == '#') {
                         String sensor = recDataString.substring(1, 5);
                         uvLevel.setText(sensor);
                     }
                     recDataString.delete(0, recDataString.length());                    //clear all string data
-                    // strIncom =" ";
                     dataInPrint = " ";
+                } else if (sunscreenNotification > 0) {
+                    String dataInPrint = recDataString.substring(0, EOLIndexMulti);    // extract string
+                    int dataLength = dataInPrint.length();
+                    if (recDataString.charAt(0) == '#') {
+
+                        //Extract and confirm the notification message is valid
+                        String readingsString = recDataString.substring(1, dataLength);
+                        if (readingsString.equals("note")) {
+                            //Sunscreen notification message received
+                            // - Create dialog box
+                            // - Turn on vibration
+                            //Turn on vibration if one exists
+                            final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                            if (vibrator.hasVibrator()) {
+                                vibrator.vibrate(getVibratorPattern(), 1); //put vibration on repeat
+                            }
+                            //Build and display a dialog box
+                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
+                            dlgAlert.setMessage("Please apply some sunscreen now!");
+                            dlgAlert.setTitle("Sunscreen Notification");
+                            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Close dialog box
+                                    //By default, vibrator will close when dialog closes
+                                    vibrator.cancel();
+                                }
+                            });
+                            dlgAlert.setCancelable(true);
+                            dlgAlert.create().show();
+                        }
+                    }
+                    recDataString.delete(0, recDataString.length());
                 }
             }
         }
@@ -446,6 +483,12 @@ public class MainActivity extends Activity {
         }
 
         return feedbackString;
+    }
+
+    //Return a particular vibration pattern
+    public long[] getVibratorPattern() {
+        long pattern[] = {0,100,100};
+        return pattern;
     }
 }
     
