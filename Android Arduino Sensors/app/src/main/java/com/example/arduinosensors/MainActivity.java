@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
                     recDataString.delete(0, recDataString.length());                    //clear all string data
                     dataInPrint = " ";
                 } else if (sunscreenNotification > 0) {
-                    String dataInPrint = recDataString.substring(0, EOLIndexMulti);    // extract string
+                    String dataInPrint = recDataString.substring(0, sunscreenNotification);    // extract string
                     int dataLength = dataInPrint.length();
                     if (recDataString.charAt(0) == '#') {
 

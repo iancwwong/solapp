@@ -15,5 +15,12 @@
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
         <dex dex="C:\Users\Ian\Desktop\Android Arduino Sensors\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-e8b90023eb107bd12b2047ed2212b749c4b68c41.jar" />
     </item>
+    <item
+        jar="C:\Users\Ian\Desktop\TUC\solapp\Android Arduino Sensors\app\libs\mpandroidchartlibrary-2-1-2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5174e30c198a42ab59241ab8a89d9b5b9c3c909d">
+        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\Android Arduino Sensors\app\build\intermediates\pre-dexed\debug\mpandroidchartlibrary-2-1-2-b7c27e5af260994243a3ce507e06df6090a57b3c.jar" />
+    </item>
 
 </items>
