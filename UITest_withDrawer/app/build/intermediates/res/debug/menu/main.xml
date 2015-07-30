@@ -15,8 +15,8 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_websearch"
+    <item android:id="@+id/action_sync"
           android:icon="@drawable/action_search"
-          android:title="@string/action_websearch"
+          android:title="@string/action_sync"
           android:showAsAction="ifRoom|withText" />
-</menu><!-- From: file:/C:/Users/skae/Downloads/NavigationDrawer1/app/src/main/res/menu/main.xml -->
+</menu><!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/UITest_withDrawer/app/src/main/res/menu/main.xml -->
