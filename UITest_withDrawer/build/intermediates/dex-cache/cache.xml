@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\pre-dexed\debug\classes-7e9247208bd4e962b933b884f2eccb54ad233de9.jar" />
+    </item>
+    <item
+        jar="C:\Users\skae\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-05b82481acd5660252da1b11136049b7ef295e20.jar" />
+    </item>
+    <item
+        jar="C:\Users\skae\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.1.2\c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349\MPAndroidChart-v2.1.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349">
+        <dex dex="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\pre-dexed\debug\MPAndroidChart-v2.1.2-56759c2e2a7212fa8e2d0ca6b833b1cfbb55d441.jar" />
+    </item>
+    <item
+        jar="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-1caf1096f9bf9a9b9142d9711909f1e74666c30b.jar" />
+    </item>
+    <item
+        jar="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="caa3221876e67a86b578e7a728dce6dfb7b2c8a7">
+        <dex dex="C:\Users\skae\Downloads\NavigationDrawer1\app\build\intermediates\pre-dexed\debug\classes-64ffdefd323d41babcd906156d25adac981f16ad.jar" />
+    </item>
+
+</items>
