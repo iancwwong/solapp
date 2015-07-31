@@ -19,6 +19,10 @@ import java.util.Locale;
 
 public class SummaryFragment extends BaseFragment {
 
+    //Attributes
+    public MainActivity main;
+
+    //Constructor
     public SummaryFragment() {
         BaseLayout = R.layout.fragment_summary;
     }
@@ -28,13 +32,13 @@ public class SummaryFragment extends BaseFragment {
     SeekBar sb = null;
     CircleProgressBar pb = null;
 
-    int MinVal = 0;
-    int MaxVal = 100;
-    int CurVal = 0;
+    double MinVal = 0;
+    double MaxVal = 100;
+    double CurVal = 0;
 
     int Mode = 0;
-    int Mode1 = 0;
-    int Mode2 = 0;
+    double Mode1 = 0;
+    double Mode2 = 0;
 
     public TextView tvTopLeft;
     public TextView tvTopRight;
@@ -99,6 +103,9 @@ public class SummaryFragment extends BaseFragment {
 
         sb = (SeekBar) findViewById(R.id.seekBar);
         pb = (CircleProgressBar)findViewById(R.id.progressBar);
+
+        pb.main = this.main;
+
         pb.tx1 = (TextView)findViewById(R.id.text1);
         pb.tx2 = (TextView)findViewById(R.id.text2);
 
@@ -112,7 +119,7 @@ public class SummaryFragment extends BaseFragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
                 // this sends a PERCENTAGE only ...
-                int SendValue = MinVal + ((MaxVal - MinVal) * i / 100);
+                double SendValue = MinVal + ((MaxVal - MinVal) * i / 100);
 
                 if (b) {
                     pb.AnimateProgressTo(SendValue);
@@ -142,11 +149,6 @@ public class SummaryFragment extends BaseFragment {
         SetMode1(); // init as View1
     }
 
-    //Interfacing with the activity containing this fragment
-    // - contains callback definitions
-    public void onFragmentInteraction (View view) {
-
-    }
 
 /*
     //Detect the activity that this fragment is used in
@@ -171,15 +173,15 @@ public class SummaryFragment extends BaseFragment {
 
     // ## HELPER FUNCTIONS
     public void ResetBars() {
-        int CurrentPercent = 100 * (pb.getCurVal()) / (pb.getMax());
-        int NewPercent = (int)(100 * (float)CurVal/(float)MaxVal);
-        sb.setProgress(NewPercent);
+        double CurrentPercent = 100 * (pb.getCurVal()) / (pb.getMax());
+        double NewPercent = (int)(100 * (float)CurVal/(float)MaxVal);
+        sb.setProgress((int)NewPercent);
         pb.mode = Mode;
         pb.setMin(MinVal);
         pb.setMax(MaxVal);
         pb.EndAnimation();
 
-        int NewVal = (CurrentPercent * MaxVal) / 100;
+        double NewVal = (CurrentPercent * MaxVal) / 100;
         pb.setCurVal(NewVal);
         pb.AnimateProgressTo(CurVal);
     }

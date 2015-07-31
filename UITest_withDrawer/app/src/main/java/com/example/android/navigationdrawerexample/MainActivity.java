@@ -27,6 +27,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -114,6 +115,12 @@ public class MainActivity extends Activity {
     //Other Constants
     public static final int RECOMMENDED_EXPOSURE = 150;
 
+    //Variables for activity
+    public double currentUVValue = 10.2;
+
+    public Thread syncThread;
+    public Runnable syncRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,8 +207,16 @@ public class MainActivity extends Activity {
                         int dataLength = dataInPrint.length();
                         if (recDataString.charAt(0) == '#') {
                             String currUVMeasurement = recDataString.substring(1, 5);
-                            //ToDo: Update Current UV Measurement
+                            //Update current UV Measurement
+                            currentUVValue = Double.valueOf(currUVMeasurement);
+                            Log.e("test","Current UV level: " + currentUVValue);
 
+                            //Refresh the circle progress bar
+                            Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+                            if (f instanceof SummaryFragment) {
+                                ((SummaryFragment) f).pb.invalidate();
+                                ((SummaryFragment) f).pb.AnimateProgressTo(currentUVValue);
+                            }
                         }
                         recDataString.delete(0, recDataString.length());                    //clear all string data
                         dataInPrint = " ";
@@ -245,7 +260,27 @@ public class MainActivity extends Activity {
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
+        syncRunnable = new Runnable() {
+            public void run() {
+                /*
+                while(true) {
+
+                    synchronized (this) {
+                        try {
+                            Log.e("test","sync thread is running");
+                            if (mConnectedThread != null && mConnectedThread.isAlive()) {
+                                mConnectedThread.write("1"); //send reqeuest for curr uv measurement
+                            }
+                            wait(1000);
+                        } catch (Exception e) {}
+                    }
+                }
+               */
+            }
+        };
+
     }
+
 
     @Override
     public void onResume() {
@@ -283,11 +318,22 @@ public class MainActivity extends Activity {
         //I send a character when resuming.beginning transmission to check device is connected
         //If it is not an exception will be thrown in the write method and finish() will be called
         mConnectedThread.write("x");
+
+        syncThread = new Thread(syncRunnable);
+        syncThread.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (syncThread != null) {
+            try {
+                syncThread.join();
+                syncThread = null;
+            } catch (Exception e) {
+                Log.e("test", "Can't join thread");
+            }
+        }
         try {
             //Don't leave Bluetooth sockets open when leaving activity
             btSocket.close();
@@ -359,6 +405,7 @@ public class MainActivity extends Activity {
         switch(NewPosition) {
             case 0:
                 fragment = new SummaryFragment();
+                ((SummaryFragment) fragment).main = this;
                 break;
 
             case 1:

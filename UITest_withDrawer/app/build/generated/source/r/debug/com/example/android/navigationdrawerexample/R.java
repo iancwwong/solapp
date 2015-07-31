@@ -385,42 +385,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f02000c;
     }
     public static final class id {
-        public static final int TV1=0x7f0c001c;
-        public static final int TV2=0x7f0c001d;
-        public static final int TV3=0x7f0c001e;
-        public static final int TV4=0x7f0c001f;
-        public static final int action_measure_uv=0x7f0c0022;
-        public static final int action_sync=0x7f0c0023;
+        public static final int TV1=0x7f0c0015;
+        public static final int TV2=0x7f0c0016;
+        public static final int TV3=0x7f0c0017;
+        public static final int TV4=0x7f0c0018;
+        public static final int action_measure_uv=0x7f0c001b;
+        public static final int action_sync=0x7f0c001c;
         public static final int bottom=0x7f0c0003;
-        public static final int chart=0x7f0c0012;
-        public static final int chooseDateLabel=0x7f0c000d;
         public static final int connecting=0x7f0c000a;
         public static final int content_frame=0x7f0c0006;
-        public static final int dailyReadingsTitle=0x7f0c0020;
-        public static final int datesLabel=0x7f0c0010;
+        public static final int dailyReadingsTitle=0x7f0c0019;
         public static final int drawer_layout=0x7f0c0005;
-        public static final int graphViewOption=0x7f0c000e;
         public static final int infoText=0x7f0c000b;
         public static final int left_drawer=0x7f0c0007;
-        public static final int nextDate=0x7f0c0011;
         public static final int none=0x7f0c0000;
-        public static final int page_one=0x7f0c0016;
-        public static final int page_two=0x7f0c0018;
+        public static final int page_one=0x7f0c000f;
+        public static final int page_two=0x7f0c0011;
         public static final int paired_devices=0x7f0c0009;
-        public static final int prevDate=0x7f0c000f;
-        public static final int progressBar=0x7f0c0014;
-        public static final int seekBar=0x7f0c001b;
-        public static final int text1=0x7f0c0017;
-        public static final int text2=0x7f0c0019;
-        public static final int textView3=0x7f0c0013;
+        public static final int progressBar=0x7f0c000d;
+        public static final int seekBar=0x7f0c0014;
+        public static final int text1=0x7f0c0010;
+        public static final int text2=0x7f0c0012;
+        public static final int textView3=0x7f0c000c;
         public static final int title_paired_devices=0x7f0c0008;
-        public static final int titles1=0x7f0c001a;
+        public static final int titles1=0x7f0c0013;
         public static final int top=0x7f0c0004;
         public static final int triangle=0x7f0c0001;
         public static final int underline=0x7f0c0002;
-        public static final int uvGraphsLabel=0x7f0c000c;
-        public static final int viewPager=0x7f0c0015;
-        public static final int weeklyExposuresTitle=0x7f0c0021;
+        public static final int viewPager=0x7f0c000e;
+        public static final int weeklyExposuresTitle=0x7f0c001a;
     }
     public static final class integer {
         public static final int default_circle_indicator_orientation=0x7f080000;
@@ -434,10 +427,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int device_list=0x7f030001;
         public static final int device_name=0x7f030002;
         public static final int drawer_list_item=0x7f030003;
-        public static final int fragment_daily_readings=0x7f030004;
-        public static final int fragment_settings=0x7f030005;
-        public static final int fragment_summary=0x7f030006;
-        public static final int fragment_trends=0x7f030007;
+        public static final int fragment_settings=0x7f030004;
+        public static final int fragment_summary=0x7f030005;
+        public static final int fragment_trends=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

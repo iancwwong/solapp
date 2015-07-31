@@ -17,9 +17,11 @@ import android.widget.TextView;
  */
 public class CircleProgressBar extends View {
 
-    private int CurVal = 0;
-    private int MinVal = 0;
-    private int MaxVal = 10000;
+    private double CurVal = 0;
+    private double MinVal = 0;
+    private double MaxVal = 10000;
+
+    public MainActivity main;
 
     /**
      * ProgressBar's line thickness
@@ -50,29 +52,34 @@ public class CircleProgressBar extends View {
         requestLayout();//Because it should recalculate its bounds
     }
 
-    public int getCurVal() {
+    public double getCurVal() {
         return CurVal;
     }
 
-    public void setCurVal(int progress) {
+    public void setCurVal(double progress) {
         this.CurVal = progress;
         invalidate();
     }
 
-    public int getMin() {
+    public void setCurVal(float progress) {
+        this.CurVal = progress;
+        invalidate();
+    }
+
+    public double getMin() {
         return MinVal;
     }
 
-    public void setMin(int min) {
+    public void setMin(double min) {
         this.MinVal = min;
         invalidate();
     }
 
-    public int getMax() {
+    public double getMax() {
         return MaxVal;
     }
 
-    public void setMax(int max) {
+    public void setMax(double max) {
         this.MaxVal = max;
         invalidate();
     }
@@ -143,17 +150,8 @@ public class CircleProgressBar extends View {
         canvas.drawOval(rectF, backgroundPaint);
         float angle = 360 * (percent);
         canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint);
-/*
-        if (mode == 1 && tx1 != null) {
-            String newText = String.valueOf((int)CurVal) + "\n/" + String.valueOf(MaxVal);
-            tx1.setText(newText);
-        }
-        if (mode == 2 && tx2 != null) {
-            String newText = String.valueOf((int)CurVal) + "\n/" + String.valueOf(MaxVal);
-            tx2.setText(newText);
-        }
-        */
 
+        /*((
         // set the counter
         TextView target = null;
         if (mode == 1) { target = tx1; }
@@ -165,6 +163,9 @@ public class CircleProgressBar extends View {
         WriteText(tvTopRight, "Cur: " + String.valueOf(getCurVal()));
         WriteText(tvBotLeft, "Min: " + String.valueOf(getMin()));
         WriteText(tvBotRight, "Max: " + String.valueOf(getMax()));
+        */
+
+        WriteText(tx1, String.valueOf(main.currentUVValue));
 
     }
 
@@ -223,7 +224,7 @@ public class CircleProgressBar extends View {
 
     }
 
-    public void AnimateProgressTo(int CurVal) {
+    public void AnimateProgressTo(double CurVal) {
         AnimateProgressTo(CurVal, 1500);
     }
 
