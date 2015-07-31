@@ -41,7 +41,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class -ReadingsActivity extends Activity {
+public class ReadingsActivity extends Activity {
 
     //UI components
     private Button backHome;
@@ -331,46 +331,9 @@ public class -ReadingsActivity extends Activity {
     //Retrieve a list of all files with extension of type ".readings"
     // Returns the list in ASCENDING order
     public ArrayList<String> getReadingsList() {
-        //Retrieve all files in the internal storage, each representing 1 day
 
-        //Get original list of files, and sort it in desc order
-        ArrayList<String> allFiles = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
-        if (allFiles.size() == 0) {
-            //There are no readings on the phone
-            return new ArrayList<String>();
-        }
-
-        //Filter out ONLY ".readings" files
-        ArrayList<String> dates = new ArrayList<String>();
-        for (String filename : allFiles) {
-            if (filename.contains(".readings")) {
-                dates.add(filename);
-            }
-        }
-        Collections.sort(dates);
-        Collections.reverse(dates);
-
-        if (dates.size() == 1) {
-            //There is only 1 ".readings" file - immediately return
-            return dates;
-        }
-
-        //Add in filler dates - start at the most recent date, work towards oldest date
-        // and re-sort the list
-        String latestDate = dates.get(0);
-        String oldestDate = dates.get(dates.size() - 1);
-        String theoreticalFile = new String(oldestDate);
-        theoreticalFile = incrementDate(theoreticalFile) + ".readings";
-        while (!theoreticalFile.equals(latestDate)) {
-            //Check to see if corr date/file exists
-            if (!dates.contains(theoreticalFile)) {
-                dates.add(theoreticalFile);
-            }
-            theoreticalFile = incrementDate(theoreticalFile) + ".readings";
-        }
-
-        //Sort everything in order of date - requires a comparator
-        Collections.sort(dates, new Comparator<String>() {
+        //Used to compare dates in string form
+        Comparator dateComparator = new Comparator<String>() {
             public int compare(String date1, String date2) {
 
                 //strip extension
@@ -398,7 +361,48 @@ public class -ReadingsActivity extends Activity {
                 }
                 return -1;
             }
-        });
+        };
+
+        //Retrieve all files in the internal storage, each representing 1 day
+
+        //Get original list of files, and sort it in desc order
+        ArrayList<String> allFiles = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+        if (allFiles.size() == 0) {
+            //There are no readings on the phone
+            return new ArrayList<String>();
+        }
+
+        //Filter out ONLY ".readings" files
+        ArrayList<String> dates = new ArrayList<String>();
+        for (String filename : allFiles) {
+            if (filename.contains(".readings")) {
+                dates.add(filename);
+            }
+        }
+        Collections.sort(dates,dateComparator);
+        Collections.reverse(dates);
+
+        if (dates.size() == 1) {
+            //There is only 1 ".readings" file - immediately return
+            return dates;
+        }
+
+        //Add in filler dates - start at the most recent date, work towards oldest date
+        // and re-sort the list
+        String latestDate = dates.get(0);
+        String oldestDate = dates.get(dates.size() - 1);
+        String theoreticalFile = new String(oldestDate);
+        theoreticalFile = incrementDate(theoreticalFile) + ".readings";
+        while (!theoreticalFile.equals(latestDate)) {
+            //Check to see if corr date/file exists
+            if (!dates.contains(theoreticalFile)) {
+                dates.add(theoreticalFile);
+            }
+            theoreticalFile = incrementDate(theoreticalFile) + ".readings";
+        }
+
+        //Sort everything in order of date
+        Collections.sort(dates, dateComparator);
 
         return dates;
     }
