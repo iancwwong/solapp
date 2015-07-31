@@ -19,6 +19,7 @@
     <string-array name="drawer_titles">
         <item>Summary</item>
         <item>Trends</item>
+        <item>Exposures</item>
         <item>Settings</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>

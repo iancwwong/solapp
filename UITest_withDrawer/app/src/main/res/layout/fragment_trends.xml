@@ -12,22 +12,6 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_weight="0.81"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Daily Trends"
-                android:id="@+id/dailyTrendsLabel"
-                android:gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
             android:layout_height="53dp"
             android:weightSum="1">
 
@@ -45,6 +29,15 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/datePicker"
                 android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="0.39"
+            android:weightSum="1">
 
         </LinearLayout>
 

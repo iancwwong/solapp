@@ -149,28 +149,6 @@ public class SummaryFragment extends BaseFragment {
         SetMode1(); // init as View1
     }
 
-
-/*
-    //Detect the activity that this fragment is used in
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            //mListener =
-                    (SummaryFragment.this)  activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    //Detect that the activity has abandoned this fragment
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //mListener = null;
-    }
-*/
-
     // ## HELPER FUNCTIONS
     public void ResetBars() {
         double CurrentPercent = 100 * (pb.getCurVal()) / (pb.getMax());

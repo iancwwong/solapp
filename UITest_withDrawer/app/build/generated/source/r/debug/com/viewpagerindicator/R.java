@@ -58,16 +58,16 @@ public final class R {
 		public static final int default_title_indicator_selected_color = 0x7f060006;
 		public static final int default_title_indicator_text_color = 0x7f060007;
 		public static final int default_underline_indicator_selected_color = 0x7f060008;
-		public static final int vpi__background_holo_dark = 0x7f060009;
-		public static final int vpi__background_holo_light = 0x7f06000a;
-		public static final int vpi__bright_foreground_disabled_holo_dark = 0x7f06000b;
-		public static final int vpi__bright_foreground_disabled_holo_light = 0x7f06000c;
-		public static final int vpi__bright_foreground_holo_dark = 0x7f06000d;
-		public static final int vpi__bright_foreground_holo_light = 0x7f06000e;
-		public static final int vpi__bright_foreground_inverse_holo_dark = 0x7f06000f;
-		public static final int vpi__bright_foreground_inverse_holo_light = 0x7f060010;
-		public static final int vpi__dark_theme = 0x7f060011;
-		public static final int vpi__light_theme = 0x7f060012;
+		public static final int vpi__background_holo_dark = 0x7f06000a;
+		public static final int vpi__background_holo_light = 0x7f06000b;
+		public static final int vpi__bright_foreground_disabled_holo_dark = 0x7f06000c;
+		public static final int vpi__bright_foreground_disabled_holo_light = 0x7f06000d;
+		public static final int vpi__bright_foreground_holo_dark = 0x7f06000e;
+		public static final int vpi__bright_foreground_holo_light = 0x7f06000f;
+		public static final int vpi__bright_foreground_inverse_holo_dark = 0x7f060010;
+		public static final int vpi__bright_foreground_inverse_holo_light = 0x7f060011;
+		public static final int vpi__dark_theme = 0x7f060012;
+		public static final int vpi__light_theme = 0x7f060013;
 	}
 	public static final class dimen {
 		public static final int default_circle_indicator_gap = 0x7f070000;

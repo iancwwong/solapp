@@ -372,12 +372,19 @@ public class MainActivity extends Activity {
             //Send to the arduino a request for its logs
             mConnectedThread.write("0");
             ShortToast("Logs requested");
+
+            //TODO: Make updates across all fragments
+            //SummaryFragment.update();
+            //TrendsFragment.update();
+            //WeeklyTrendsFragment.update();
+
             return true;
 
         case R.id.action_measure_uv:
             //Send to the arduino a request for it's current UV measurement
             mConnectedThread.write("1");    // Send "1" via Bluetooth
             ShortToast("Measuring UV");
+
             return true;
 
         default:
@@ -413,6 +420,10 @@ public class MainActivity extends Activity {
                 break;
 
             case 2:
+                fragment = new WeeklyTrendsFragment();
+                break;
+
+            case 3:
                 fragment = new SettingsFragment();
                 break;
 

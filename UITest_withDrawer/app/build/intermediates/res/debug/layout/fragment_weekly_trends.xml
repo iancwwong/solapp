@@ -19,24 +19,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Select day:"
-                android:id="@+id/dailyViewLabel"
-                android:layout_weight="0.36"
+                android:text="Select week:"
+                android:id="@+id/selectWeekLabel"
+                android:layout_weight="0.20"
                 android:gravity="center" />
 
             <Spinner
-                android:layout_width="194dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/datePicker"
+                android:id="@+id/weekPicker"
                 android:spinnerMode="dropdown" />
-
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_weight="0.39"
+            android:layout_weight="0.01"
             android:weightSum="1">
 
         </LinearLayout>
@@ -52,30 +51,31 @@
                 android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:text="&lt;"
-                android:id="@+id/prevDate"
+                android:id="@+id/prevWeek"
                 android:gravity="center_vertical" />
 
             <TextView
                 android:layout_width="141dp"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/datesLabel"
+                android:id="@+id/weekLabel"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:layout_weight="0.80" />
+                android:layout_weight="0.94" />
 
             <Button
                 android:layout_width="52dp"
                 android:layout_height="wrap_content"
                 android:text=">"
-                android:id="@+id/nextDate" />
+                android:id="@+id/nextWeek" />
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="333dp" />
+            android:layout_height="186dp"
+            android:layout_weight="0.92" />
 
     </LinearLayout>
 </LinearLayout>
-<!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/UITest_withDrawer/app/src/main/res/layout/fragment_trends.xml -->
+<!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/UITest_withDrawer/app/src/main/res/layout/fragment_weekly_trends.xml -->

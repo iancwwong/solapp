@@ -2,7 +2,7 @@ package com.example.android.navigationdrawerexample;
 
 
 /*
-    Contains the fragments that contain "Daily Views" and "Weekly Views"
+    Contains the graph for readings for each day
  */
 
 import android.app.AlertDialog;
@@ -70,7 +70,6 @@ public class TrendsFragment extends BaseFragment {
     public void init() {
 
         //Bind attributes to appropriate UI components
-        pager = (ViewPager) findViewById(R.id.viewPager);
         prevDate = (Button) findViewById(R.id.prevDate);
         nextDate = (Button) findViewById(R.id.nextDate);
         datePicker = (Spinner) findViewById(R.id.datePicker);
@@ -356,30 +355,6 @@ public class TrendsFragment extends BaseFragment {
         Collections.sort(dates, dateComparator);
 
         return dates;
-    }
-
-    //Group a specified list of dates into weeks, with each week containing 7 dates
-    // with FILLER dates completed (ie dates that don't have corresponding ".readings" file)
-    // NOTE: Each string will represent a ".summary" file
-    public ArrayList<ArrayList<String>> groupIntoWeeks(ArrayList<String> dates) {
-        ArrayList<ArrayList<String>> weeks = new ArrayList<ArrayList<String>>();
-
-        //Add collections of 7 days in "dates" to "weeks"
-        int counter = 0;
-        ArrayList<String> aWeek = new ArrayList<String>();
-        for (String date : dates) {
-            String currDateSummary = date.replace(".readings",".summary");
-            if (counter == 7) {
-                counter = 0;
-                weeks.add(aWeek);
-                aWeek = new ArrayList<String>(); //empty out aWeeks
-            }
-            aWeek.add(currDateSummary);
-            counter = counter + 1;
-        }
-        //Add the remaining "aWeek" to weeks
-        weeks.add(aWeek);
-        return weeks;
     }
 
     //increment a date by 1
