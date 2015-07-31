@@ -3,6 +3,8 @@ package ianwong.test;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 
@@ -15,8 +17,12 @@ import android.widget.ToggleButton;
 import android.widget.Spinner;
 
 //Charting
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -26,6 +32,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 //Reading Files
@@ -34,18 +41,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ReadingsActivity extends Activity {
+public class -ReadingsActivity extends Activity {
 
     //UI components
     private Button backHome;
     private Button prevDate;
     private Button nextDate;
-    private ToggleButton graphHighToggle;
-    private ToggleButton graphModToggle;
-    private ToggleButton graphLowToggle;
     private Spinner graphViewOptions;
     private TextView datesLabel; //for telling user the current view of the graph
-    private LineChart chart;
 
     //Data attributes
     //For Spinner
@@ -54,9 +57,11 @@ public class ReadingsActivity extends Activity {
     private ArrayList<ArrayList<String>> weeks; //for viewing weekly readings
     private int currWeekIndex;
 
-
     //Constants
     public static final int RECOMMENDED_EXPOSURE = 150;
+
+    //Fragments
+    ViewPager mViewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +69,15 @@ public class ReadingsActivity extends Activity {
         setContentView(R.layout.readings);
 
         //Retrieve all the dates that have recordings, and insert filler dates
-        dates = getDateList();
-        weeks = getWeekList();
+        dates = getReadingsList();
+        weeks = groupIntoWeeks(getReadingsList());
 
-        //Bind graph attribute to graph on UI
-        //LineChart chart = (LineChart) findViewById(R.id.chart);
+        for (int i = 0; i < weeks.size(); i++) {
+            Log.e("test", "Week " + i);
+            for (String date : weeks.get(i)) {
+                Log.e("test",date);
+            }
+        }
 
         //Initialise UI components and buttons
         backHome = (Button) findViewById(R.id.backHome);
@@ -112,16 +121,11 @@ public class ReadingsActivity extends Activity {
             }
         });
 
-        //Bind graph UI filtering buttons
-        graphHighToggle = (ToggleButton) findViewById(R.id.graphHighToggle);
-        graphModToggle = (ToggleButton) findViewById(R.id.graphModToggle);
-        graphLowToggle = (ToggleButton) findViewById(R.id.graphLowToggle);
-
         //Set default date to be current
         if (dates.size() == 0) {
             //do nothing
         } else {
-            currDateIndex = 0;
+            currDateIndex = dates.size()-1;
         }
 
         //Default graph to present Daily readings
@@ -157,28 +161,6 @@ public class ReadingsActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         //Move to previous date (ie older date, so go UP the dates array
-                        currDateIndex = currDateIndex + 1;
-
-                        //Update the label
-                        datesLabel.setText(dates.get(currDateIndex).replace(".readings", ""));
-
-                        //UpdateGraph
-                        drawDailyReadingsGraph(dates.get(currDateIndex));
-
-                        //Check for end limits of the date
-                        if (currDateIndex == dates.size() - 1) {
-                            prevDate.setEnabled(false);
-                        }
-                        if (currDateIndex > 0) {
-                            nextDate.setEnabled(true);
-                        }
-                    }
-                });
-
-                nextDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Move to next date ie newer date
                         currDateIndex = currDateIndex - 1;
 
                         //Update the label
@@ -189,9 +171,31 @@ public class ReadingsActivity extends Activity {
 
                         //Check for end limits of the date
                         if (currDateIndex == 0) {
+                            prevDate.setEnabled(false);
+                        }
+                        if (currDateIndex < dates.size()-1) {
+                            nextDate.setEnabled(true);
+                        }
+                    }
+                });
+
+                nextDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Move to next date ie newer date
+                        currDateIndex = currDateIndex + 1;
+
+                        //Update the label
+                        datesLabel.setText(dates.get(currDateIndex).replace(".readings", ""));
+
+                        //UpdateGraph
+                        drawDailyReadingsGraph(dates.get(currDateIndex));
+
+                        //Check for end limits of the date
+                        if (currDateIndex == dates.size()-1) {
                             nextDate.setEnabled(false);
                         }
-                        if (currDateIndex < dates.size() - 1) {
+                        if (currDateIndex > 0) {
                             prevDate.setEnabled(true);
                         }
                     }
@@ -204,42 +208,14 @@ public class ReadingsActivity extends Activity {
             //Deafault the nextdate button to be disabled, since the most recent date is being displayed
             nextDate.setEnabled(false);
 
-            //Disable the toggle buttons near the bottom, as by default there's nothing to toggle
-            // on the chart
-            graphHighToggle.setEnabled(false);
-            graphModToggle.setEnabled(false);
-            graphLowToggle.setEnabled(false);
-
         } else if (mode.equals("Weekly")) {
             //ToDo: Group dates into weeks, and update the dates list.
             //Todo: Draw the graph for each week
 
-            //Enable toggle buttons, and add onClick functions to update graph
-            graphHighToggle.setEnabled(true);
-            graphHighToggle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Enable or disable the high exposure display on the graph
-                }
-            });
-            graphModToggle.setEnabled(true);
-            graphModToggle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Enable or disable the moderate exposure display on the graph
-                }
-            });
-            graphLowToggle.setEnabled(true);
-            graphLowToggle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Enable or disable the low exposure display on the graph
-                }
-            });
         }
     }
 
-    //Draw a line graph from a specified day / file
+    //Draw a line graph from a specified day / file ".summary" file
     public void drawDailyReadingsGraph(String filename) {
         //Prepare variables for graph
         ArrayList<Entry> dayReadings = new ArrayList<Entry>();
@@ -284,6 +260,47 @@ public class ReadingsActivity extends Activity {
         chart.invalidate(); // Refresh graph
     }
 
+    //Draw a bar chart, given a week of ".summary" files
+    //NOTE: this list MUST be in ascending order
+    public void drawWeeklyGraph(ArrayList<String> summaryFiles) {
+
+        //Prepare x-axis by extracting the dates from the summaryFiles names
+        ArrayList<String> dates = new ArrayList<String>();
+        for (String string : summaryFiles) {
+            dates.add(new String(string.replace(".summary","")));
+        }
+
+        //Prepare the data set for the chart
+        String dataSetName = "Exposures for the week";
+        int i = 0;
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+        for (String file : summaryFiles) {
+            Vector<String> readData = readFile(file);
+
+            //Calculate the total exposure
+            Double totalExposure = Double.parseDouble("0");
+            if (readData.size() > 0) {
+                //file is not empty - update total exposure
+                for (String line : readData) {
+                    String[] processed = line.split(",");
+                    totalExposure = totalExposure + Double.parseDouble(processed[1]);
+                }
+            }
+            Double percExposure = totalExposure / RECOMMENDED_EXPOSURE;
+            entries.add(new BarEntry(Float.parseFloat(Double.toString(percExposure)),i)); //something was weird casting a double to float
+            i = i + 1;
+        }
+        BarDataSet dataSet = new BarDataSet(entries,dataSetName);
+
+        //Prepare Bar Data - dates as x-values, data-set as individual
+        BarData barData = new BarData(dates,dataSet);
+
+        //Draw and customise Graph
+        BarChart chart = (BarChart) findViewById(R.id.chart);
+        chart.setData(barData);
+
+    }
+
     //Read from a given file and return read data as a vector of strings
     // (1 file line = 1 vector)
     public Vector<String> readFile(String fileName) {
@@ -311,10 +328,9 @@ public class ReadingsActivity extends Activity {
         return dataRead;
     }
 
-    //Retrieve a list of all the dates, as well as filler dates
-    // in DESCENDING order (ie recent dates first)
-    // each string containing a ".readings" extension
-    public ArrayList<String> getDateList() {
+    //Retrieve a list of all files with extension of type ".readings"
+    // Returns the list in ASCENDING order
+    public ArrayList<String> getReadingsList() {
         //Retrieve all files in the internal storage, each representing 1 day
 
         //Get original list of files, and sort it in desc order
@@ -352,17 +368,63 @@ public class ReadingsActivity extends Activity {
             }
             theoreticalFile = incrementDate(theoreticalFile) + ".readings";
         }
-        Collections.sort(dates);
-        Collections.reverse(dates);
+
+        //Sort everything in order of date - requires a comparator
+        Collections.sort(dates, new Comparator<String>() {
+            public int compare(String date1, String date2) {
+
+                //strip extension
+                String date1Str = date1.replace(".readings","");
+                String processed[] = date1Str.split("-");
+                String year = processed[0];
+                String month = String.format("%02d",Integer.parseInt(processed[1]));
+                String day = String.format("%02d",Integer.parseInt(processed[2]));
+                String date1FinalStr = year + month + day;
+                long date1Value = Long.parseLong(date1FinalStr, 10); //to base 10
+
+                String date2Str = date2.replace(".readings","");
+                String processed2[] = date2Str.split("-");
+                String year2 = processed2[0];
+                String month2 = String.format("%02d",Integer.parseInt(processed2[1]));
+                String day2 = String.format("%02d", Integer.parseInt(processed2[2]));
+                String date2FinalStr = year2 + month2 + day2;
+                long date2Value = Long.parseLong(date2FinalStr,10); //to base 10
+
+                //Determine whether one is greater than the other
+                if (date1Value > date2Value) {
+                    return 1;
+                } else if (date1Value == date2Value) {
+                    return 0;
+                }
+                return -1;
+            }
+        });
 
         return dates;
     }
 
-    //Retrieve a collection of weeks, with each week containing a series of dates
+    //Group a specified list of dates into weeks, with each week containing 7 dates
     // with FILLER dates completed (ie dates that don't have corresponding ".readings" file)
-    public ArrayList<ArrayList<String>> getWeekList() {
-        //ToDo: Implement this
-        return null;
+    // NOTE: Each string will represent a ".summary" file
+    public ArrayList<ArrayList<String>> groupIntoWeeks(ArrayList<String> dates) {
+        ArrayList<ArrayList<String>> weeks = new ArrayList<ArrayList<String>>();
+
+        //Add collections of 7 days in "dates" to "weeks"
+        int counter = 0;
+        ArrayList<String> aWeek = new ArrayList<String>();
+        for (String date : dates) {
+            String currDateSummary = date.replace(".readings",".summary");
+            if (counter == 7) {
+                counter = 0;
+                weeks.add(aWeek);
+                aWeek = new ArrayList<String>(); //empty out aWeeks
+            }
+            aWeek.add(currDateSummary);
+            counter = counter + 1;
+        }
+        //Add the remaining "aWeek" to weeks
+        weeks.add(aWeek);
+        return weeks;
     }
 
     //increment a date by 1

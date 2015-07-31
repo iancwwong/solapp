@@ -308,6 +308,7 @@ public class MainActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_measure_uv).setVisible(!drawerOpen);
         menu.findItem(R.id.action_sync).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -326,6 +327,13 @@ public class MainActivity extends Activity {
             mConnectedThread.write("0");
             ShortToast("Logs requested");
             return true;
+
+        case R.id.action_measure_uv:
+            //Send to the arduino a request for it's current UV measurement
+            mConnectedThread.write("1");    // Send "1" via Bluetooth
+            ShortToast("Measuring UV");
+            return true;
+
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -341,6 +349,7 @@ public class MainActivity extends Activity {
 
     public int CurrentPosition = -1;
 
+    //Set selection options from menu bar
     private void selectItem(int NewPosition) {
 
         if (NewPosition == CurrentPosition) { return; }

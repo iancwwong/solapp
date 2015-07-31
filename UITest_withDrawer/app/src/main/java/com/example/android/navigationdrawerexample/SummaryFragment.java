@@ -1,5 +1,6 @@
 package com.example.android.navigationdrawerexample;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ public class SummaryFragment extends BaseFragment {
     public TextView tvBotLeft;
     public TextView tvBotRight;
 
+    //Interfacing with the Activity that contains this fragment
+    //private OnFragmentInteractionListener mListener;
+
     @Override
     public void init() {
 
@@ -69,7 +73,6 @@ public class SummaryFragment extends BaseFragment {
             public void onPageScrollStateChanged(int state) {
             }
         };
-
 
         pager.setOnPageChangeListener(listener);
 
@@ -109,7 +112,6 @@ public class SummaryFragment extends BaseFragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
                 // this sends a PERCENTAGE only ...
-
                 int SendValue = MinVal + ((MaxVal - MinVal) * i / 100);
 
                 if (b) {
@@ -140,6 +142,34 @@ public class SummaryFragment extends BaseFragment {
         SetMode1(); // init as View1
     }
 
+    //Interfacing with the activity containing this fragment
+    // - contains callback definitions
+    public void onFragmentInteraction (View view) {
+
+    }
+
+/*
+    //Detect the activity that this fragment is used in
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            //mListener =
+                    (SummaryFragment.this)  activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    //Detect that the activity has abandoned this fragment
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        //mListener = null;
+    }
+*/
+
+    // ## HELPER FUNCTIONS
     public void ResetBars() {
         int CurrentPercent = 100 * (pb.getCurVal()) / (pb.getMax());
         int NewPercent = (int)(100 * (float)CurVal/(float)MaxVal);
@@ -154,17 +184,19 @@ public class SummaryFragment extends BaseFragment {
         pb.AnimateProgressTo(CurVal);
     }
 
+    //For Current UV Readings
     public void SetMode1() {
         MinVal = 0;
-        MaxVal = 20000;
+        MaxVal = 15;
         CurVal = Mode1;
         Mode = 1;
         ResetBars();
     }
 
+    //For % Exposure (ie accumulated UV / recommended UV * 100)
     public void SetMode2() {
         MinVal = 0;
-        MaxVal = 500;
+        MaxVal = 100;
         CurVal = Mode2;
         Mode = 2;
         ResetBars();

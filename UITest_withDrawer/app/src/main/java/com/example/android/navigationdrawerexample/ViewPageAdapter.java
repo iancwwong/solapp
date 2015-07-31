@@ -1,12 +1,13 @@
 package com.example.android.navigationdrawerexample;
 
+/*
+    Contains 2 items for the fragment adapter
+ */
+
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Administrator on 7/30/2015.
- */
 class ViewPagerAdapter extends PagerAdapter {
 
     public Object instantiateItem(ViewGroup collection, int position) {

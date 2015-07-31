@@ -389,10 +389,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int TV2=0x7f0c0016;
         public static final int TV3=0x7f0c0017;
         public static final int TV4=0x7f0c0018;
-        public static final int action_sync=0x7f0c0019;
+        public static final int action_measure_uv=0x7f0c001b;
+        public static final int action_sync=0x7f0c001c;
         public static final int bottom=0x7f0c0003;
         public static final int connecting=0x7f0c000a;
         public static final int content_frame=0x7f0c0006;
+        public static final int dailyReadingsTitle=0x7f0c0019;
         public static final int drawer_layout=0x7f0c0005;
         public static final int infoText=0x7f0c000b;
         public static final int left_drawer=0x7f0c0007;
@@ -411,6 +413,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int triangle=0x7f0c0001;
         public static final int underline=0x7f0c0002;
         public static final int viewPager=0x7f0c000e;
+        public static final int weeklyExposuresTitle=0x7f0c001a;
     }
     public static final class integer {
         public static final int default_circle_indicator_orientation=0x7f080000;
@@ -432,12 +435,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int main=0x7f0b0000;
     }
     public static final class string {
-        public static final int action_sync=0x7f090000;
-        public static final int app_name=0x7f090001;
-        public static final int app_not_available=0x7f090002;
-        public static final int drawer_close=0x7f090003;
-        public static final int drawer_open=0x7f090004;
-        public static final int none_paired=0x7f090005;
+        public static final int action_measure_uv=0x7f090000;
+        public static final int action_sync=0x7f090001;
+        public static final int app_name=0x7f090002;
+        public static final int app_not_available=0x7f090003;
+        public static final int drawer_close=0x7f090004;
+        public static final int drawer_open=0x7f090005;
+        public static final int none_paired=0x7f090006;
     }
     public static final class style {
         public static final int TextAppearance_TabPageIndicator=0x7f0a0000;

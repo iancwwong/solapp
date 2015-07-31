@@ -16,12 +16,13 @@
             android:layout_weight="0.01"
             android:weightSum="1">
 
-            <Button
-                android:layout_width="52dp"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                android:id="@+id/backHome"
-                android:layout_weight="0.15" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Daily Readings"
+                android:id="@+id/uvGraphsLabel"
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -31,12 +32,11 @@
             android:weightSum="1">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="142dp"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="UV Graphs"
-                android:id="@+id/uvGraphsLabel"
-                android:layout_weight="0.83"
+                android:text="View Date:"
+                android:id="@+id/chooseDateLabel"
                 android:gravity="center" />
 
             <Spinner
@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/graphViewOption"
                 android:spinnerMode="dropdown" />
+
         </LinearLayout>
 
         <LinearLayout

@@ -53,19 +53,10 @@
             </FrameLayout>
         </LinearLayout>
 
-        <ScrollView
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView"
-            android:layout_weight="1.07"
-            android:fillViewport="false">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textBox" />
-        </ScrollView>
+            android:layout_height="186dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -83,6 +74,12 @@
                 android:layout_height="wrap_content"
                 android:text="Create Summaries"
                 android:id="@+id/createSummaries" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="trigger dialog"
+                android:id="@+id/triggerDialog" />
         </LinearLayout>
 
     </LinearLayout>

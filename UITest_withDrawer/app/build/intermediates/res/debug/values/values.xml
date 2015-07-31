@@ -62,6 +62,7 @@
     <integer name="default_underline_indicator_fade_length">400</integer>
     <!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/UITest_withDrawer/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="action_measure_uv">Measure UV</string>
     <string name="action_sync">Sync</string>
     <string name="app_name">Sol App</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>

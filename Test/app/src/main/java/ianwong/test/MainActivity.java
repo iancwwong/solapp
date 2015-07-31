@@ -2,7 +2,10 @@ package ianwong.test;
 
 //Essential
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -41,8 +44,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -53,7 +60,8 @@ public class MainActivity extends FragmentActivity {
     private Button writeButton;
     private Button viewGraph;
     private Spinner readingsFiles;
-    private LineChart chart;
+    private LineChart chart1;
+    private BarChart chart2;
 
     //Backend data variables
     ArrayAdapter<String> readingsListElements;
@@ -61,6 +69,10 @@ public class MainActivity extends FragmentActivity {
     //Debugging
     private TextView textBox;
     private Button createSummaries;
+    private Button triggerDialog;
+
+    //Constants
+    private static int RECOMMENDED_EXPOSURE = 150;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +84,7 @@ public class MainActivity extends FragmentActivity {
 
         //Initialise UI components
 
-        chart = (LineChart) findViewById(R.id.chart);
+        chart2 = (BarChart) findViewById(R.id.chart);
 
         //Writes data from a vector to a file
         writeButton = (Button) findViewById(R.id.writeButton);
@@ -107,7 +119,21 @@ public class MainActivity extends FragmentActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 readingsFiles.setSelection(position); //change selected to the one clicked
                 //drawDailyReadingsGraph((String) parent.getItemAtPosition(position));
-                displayReadingsData((String) parent.getItemAtPosition(position));
+
+                String chosenFile = (String) parent.getItemAtPosition(position);
+                if (chosenFile.contains(".summary")) {
+                    //draw the whole week's worth of summary files
+                    ArrayList<String> readingsFiles = getDateList();
+                    ArrayList<String> summaryFiles = new ArrayList<String>();
+                    for (String readingsFile : readingsFiles) {
+                        summaryFiles.add(readingsFile.replace(".readings",".summary"));
+                    }
+                    drawWeeklyGraph(summaryFiles);
+
+                } else {
+                    //Empty out the graph
+                }
+
             }
 
             @Override
@@ -128,7 +154,7 @@ public class MainActivity extends FragmentActivity {
 
         //Swipe component
 
-        //Debugging
+        //DEBUGGING
         //This button is responsible for:
         // creating a summary file for each ".readings" file
         // EXCEPT the one that corresponds to the current date
@@ -157,7 +183,32 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-
+        //This button is responsible for triggering a dialog button
+        triggerDialog = (Button) findViewById(R.id.triggerDialog);
+        triggerDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Turn on vibration if one exists
+                final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                if (vibrator.hasVibrator()) {
+                    vibrator.vibrate(getVibratorPattern(), 1); //put vibration on repeat
+                }
+                //Build and display a dialog box
+                AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(MainActivity.this);
+                dlgAlert.setMessage("Please apply some sunscreen now!");
+                dlgAlert.setTitle("Sunscreen Notification");
+                dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Close dialog box
+                        //By default, vibrator will close when dialog closes
+                        vibrator.cancel();
+                    }
+                });
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+            }
+        });
     }
 
 
@@ -179,13 +230,52 @@ public class MainActivity extends FragmentActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     // ## HELPER FUNCTIONS
 
-    //Draw a line graph from a specified day / file
+    //Draw a bar chart, given a week of ".summary" files
+    //NOTE: this list MUST be in ascending order
+    public void drawWeeklyGraph(ArrayList<String> summaryFiles) {
+
+        //Prepare x-axis by extracting the dates from the summaryFiles names
+        ArrayList<String> dates = new ArrayList<String>();
+        for (String string : summaryFiles) {
+            dates.add(new String(string.replace(".summary","")));
+        }
+
+        //Prepare the data set for the chart
+        String dataSetName = "Exposures for the week";
+        int i = 0;
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+        for (String file : summaryFiles) {
+            Vector<String> readData = readFile(file);
+
+            //Calculate the total exposure
+            Double totalExposure = Double.parseDouble("0");
+            if (readData.size() > 0) {
+                //file is not empty - update total exposure
+                for (String line : readData) {
+                    String[] processed = line.split(",");
+                    totalExposure = totalExposure + Double.parseDouble(processed[1]);
+                }
+            }
+            Double percExposure = totalExposure / RECOMMENDED_EXPOSURE;
+            entries.add(new BarEntry(Float.parseFloat(Double.toString(percExposure)),i)); //something was weird casting a double to float
+            i = i + 1;
+        }
+        BarDataSet dataSet = new BarDataSet(entries,dataSetName);
+
+        //Prepare Bar Data - dates as x-values, data-set as individual
+        BarData barData = new BarData(dates,dataSet);
+
+        //Draw Graph
+        chart2.setData(barData);
+
+    }
+
+    //Draw a line graph from a specified ".readings" file
     public void drawDailyReadingsGraph(String filename) {
         //Prepare variables for graph
         ArrayList<Entry> dayReadings = new ArrayList<Entry>();
@@ -204,22 +294,23 @@ public class MainActivity extends FragmentActivity {
         LineDataSet graphData = new LineDataSet(dayReadings, "");
 
         // Graphing
+        chart1 = (LineChart) findViewById(R.id.chart);
         LineData data = new LineData(timestamps, graphData);
-        chart.setData(data);
+        chart1.setData(data);
 
         graphData.setColors(new int[]{R.color.line_color}, MainActivity.this);
         graphData.setLineWidth(3); // min = 0.2f, max = 10f*
         graphData.setCircleSize(3); // Datapoint size
         graphData.setCircleColor(getResources().getColor(R.color.line_color));
         graphData.setValueTextSize(13); // Datapoint text sizes
-        chart.setScaleYEnabled(false); // Don't scroll in y direction
+        chart1.setScaleYEnabled(false); // Don't scroll in y direction
 //                chart.setDrawGridBackground(false);
-        chart.setDescription(""); // Descrip in bot right
-        chart.animateXY(2000, 2000);
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
-        chart.getAxisRight().setEnabled(false); //  Disable right yaxis
-        chart.getLegend().setEnabled(false); // Disable legend
-        chart.invalidate(); // Refresh graph
+        chart1.setDescription(""); // Descrip in bot right
+        chart1.animateXY(2000, 2000);
+        chart1.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
+        chart1.getAxisRight().setEnabled(false); //  Disable right yaxis
+        chart1.getLegend().setEnabled(false); // Disable legend
+        chart1.invalidate(); // Refresh graph
     }
 
     //Write to a given file, UV readings with corresponding timestamps
@@ -337,7 +428,8 @@ public class MainActivity extends FragmentActivity {
                 currLine = reader.readLine();
             }
         } catch (IOException e) {
-            Log.e("ianwong.test", "Unable to read file");
+            //do nothing
+            //Log.e("ianwong.test", "Unable to read file");
         }
 
         return dataRead;
@@ -351,6 +443,52 @@ public class MainActivity extends FragmentActivity {
         int yy = cal.get(Calendar.YEAR);
         StringBuilder dateStr = new StringBuilder().append(yy).append("-").append(mm + 1).append("-").append(dd);
         return dateStr.toString();
+    }
+
+    //Retrieve a list of all the dates, as well as filler dates
+    // in ASCENDING order (ie recent dates first)
+    // each string containing a ".readings" extension
+    public ArrayList<String> getDateList() {
+        //Retrieve all files in the internal storage, each representing 1 day
+
+        //Get original list of files, and sort it in desc order
+        ArrayList<String> allFiles = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+        if (allFiles.size() == 0) {
+            //There are no readings on the phone
+            return new ArrayList<String>();
+        }
+
+        //Filter out ONLY ".readings" files
+        ArrayList<String> dates = new ArrayList<String>();
+        for (String filename : allFiles) {
+            if (filename.contains(".readings")) {
+                dates.add(filename);
+            }
+        }
+        Collections.sort(dates);
+        Collections.reverse(dates);
+
+        if (dates.size() == 1) {
+            //There is only 1 ".readings" file - immediately return
+            return dates;
+        }
+
+        //Add in filler dates - start at the most recent date, work towards oldest date
+        // and re-sort the list
+        String latestDate = dates.get(0);
+        String oldestDate = dates.get(dates.size() - 1);
+        String theoreticalFile = new String(oldestDate);
+        theoreticalFile = incrementDate(theoreticalFile) + ".readings";
+        while (!theoreticalFile.equals(latestDate)) {
+            //Check to see if corr date/file exists
+            if (!dates.contains(theoreticalFile)) {
+                dates.add(theoreticalFile);
+            }
+            theoreticalFile = incrementDate(theoreticalFile) + ".readings";
+        }
+        Collections.sort(dates);
+
+        return dates;
     }
 
     //Returns the current time as a string in the format: "HH:MM"
@@ -390,41 +528,53 @@ public class MainActivity extends FragmentActivity {
         return newTimeStr.toString();
     }
 
-    //Determine the elements to insert into the dropdown
-    // that allows the user to select a readings file to view
-    public void updateReadingsDropdown() {
+    //Return a particular vibration pattern
+    public long[] getVibratorPattern() {
+        long pattern[] = {0,100,100};
+        return pattern;
+    }
 
-        //Construct a list of ONLY UV readings files in internal storage
-        List<String> files = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+    //DEBUGGING
 
-        /*
-        //Filter the list of any files that are NOT of type ".readings"
-        for (int i = 0; i < files.size(); i++) {
-            String fileName = files.get(i);
-            if (!fileName.contains(".readings")) {
-                //File is not a readings file - remove from list
-                files.remove(i);
-                i--; //adjust the counter
-            } else {
-                //strip the extension
-                files.get(i).replace(".readings","");
-            }
+
+    //increment a date by 1
+    // date is given and returned in the format: yyyy-mm-dd
+    // NOTE: Does NOT take into account leap year
+    public String incrementDate(String currDate) {
+        String newDate = "";
+
+        //Extract the data
+        String[] processed = currDate.split("-");
+        int year = Integer.parseInt(processed[0]);
+        int month = Integer.parseInt(processed[1]);
+        String str = processed[2].replaceAll("\\D+", "");
+        int day = Integer.parseInt(str) + 1;
+
+        //Determine total days in month
+        int daysInMonth = 31;
+        if ((month == 4) || (month == 6 || (month == 9) || (month == 11))) {
+            daysInMonth = 30;
+        } else if (month == 2) {
+            //feb
+            daysInMonth = 28;
         }
-        */
 
-        //Sort the array in DESCENDING order (ie most recent date to oldest)
-        Collections.sort(files);
-        Collections.reverse(files);
-        String[] readingsFilesList = files.toArray(new String[files.size()]); //assign list to variable
+        //Calculate the new day with carries
+        if (day > daysInMonth) {
+            month = month + 1;
+            day = day % daysInMonth;
+        }
+        if (month > 12) {
+            year = year + 1;
+            month = month % 12;
+        }
 
-        //Prepare adapter that contains elements
-        readingsListElements = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_dropdown_item, readingsFilesList
-        );
+        newDate = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+        return newDate;
     }
 
     //DEBUGGING FUNCTIONS
-
+/*
     //Display the contents of a particular file in a TextView (named "textBox")
     public void displayReadingsData(String fileName) {
         //Ensure textBox is empty
@@ -438,6 +588,27 @@ public class MainActivity extends FragmentActivity {
             textBox.append(System.getProperty("line.separator"));
             //Log.e("test", line);
         }
+    }
+
+*/
+
+    //Determine the elements to insert into the dropdown
+    // that allows the user to select a readings file to view
+    public void updateReadingsDropdown() {
+
+        //Construct a list of ONLY UV readings files in internal storage
+        List<String> files = new ArrayList<String>(Arrays.asList(getApplicationContext().fileList()));
+
+
+        //Sort the array in DESCENDING order (ie most recent date to oldest)
+        Collections.sort(files);
+        Collections.reverse(files);
+        String[] readingsFilesList = files.toArray(new String[files.size()]); //assign list to variable
+
+        //Prepare adapter that contains elements
+        readingsListElements = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_dropdown_item, readingsFilesList
+        );
     }
 
 }

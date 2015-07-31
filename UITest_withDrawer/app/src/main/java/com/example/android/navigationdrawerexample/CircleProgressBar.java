@@ -214,9 +214,9 @@ public class CircleProgressBar extends View {
 
     ObjectAnimator objectAnimator = null;
 
-    public void AnimateProgressTo(int CurVal, int Duration) {
+    public void AnimateProgressTo(double CurVal, int Duration) {
 
-        objectAnimator = ObjectAnimator.ofInt(this, "CurVal", CurVal);
+        objectAnimator = ObjectAnimator.ofFloat(this, "CurVal", (float) CurVal);
         objectAnimator.setDuration(Duration);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
