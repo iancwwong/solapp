@@ -9,7 +9,7 @@ package com.example.android.navigationdrawerexample;
     Responsible for preparing a bluetooth device for the main application. Tasks involves"
     - Turning on bluetooth (if not on already)
     - presenting a list of paired bluetooth devices, and allowing the user to choose one to connec to
-    - identifiy details of a chosen bluetooth device, and pass it onto the main application
+    - identify details of a chosen bluetooth device, and pass it onto the main application
  */
 import java.util.Set;
 import android.app.Activity;
