@@ -207,6 +207,9 @@ public class MainActivity extends Activity {
 
                             //Calculate and update the exposure level
                             updateExposureLevel();
+
+                            //Display to the user that successful synced has been done with arduino
+                            ShortToast("Synced");
                         }
                         recDataString.delete(0, recDataString.length()); 					//clear all string data
                         dataInPrint = " ";
@@ -219,7 +222,12 @@ public class MainActivity extends Activity {
                             currentUVValue = Double.valueOf(currUVMeasurement);
                             Log.e("test","Current UV level: " + currentUVValue);
 
+                            //Update the current UV reading on the UI
                             updateCurrentUVLevel();
+
+                            //Display to the user that successful reading of current UV has been done
+                            // with arduino
+                            ShortToast("Measured UV");
                         }
                         recDataString.delete(0, recDataString.length());                    //clear all string data
                         dataInPrint = " ";
@@ -380,15 +388,11 @@ public class MainActivity extends Activity {
         case R.id.action_sync:
             //Send to the arduino a request for its logs
             mConnectedThread.write(REQUEST_LOGS);
-            ShortToast("Logs requested");
-
             return true;
 
         case R.id.action_measure_uv:
             //Send to the arduino a request for it's current UV measurement
             mConnectedThread.write(REQUEST_CURRENT_UV);
-            ShortToast("Measuring UV");
-
             return true;
 
         default:
