@@ -377,13 +377,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int drawer_shadow=0x7f020003;
         public static final int ic_drawer=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int vpi__tab_indicator=0x7f020006;
-        public static final int vpi__tab_selected_focused_holo=0x7f020007;
-        public static final int vpi__tab_selected_holo=0x7f020008;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020009;
-        public static final int vpi__tab_unselected_focused_holo=0x7f02000a;
-        public static final int vpi__tab_unselected_holo=0x7f02000b;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02000c;
+        public static final int ic_menu_goto=0x7f020006;
+        public static final int ic_menu_refresh=0x7f020007;
+        public static final int vpi__tab_indicator=0x7f020008;
+        public static final int vpi__tab_selected_focused_holo=0x7f020009;
+        public static final int vpi__tab_selected_holo=0x7f02000a;
+        public static final int vpi__tab_selected_pressed_holo=0x7f02000b;
+        public static final int vpi__tab_unselected_focused_holo=0x7f02000c;
+        public static final int vpi__tab_unselected_holo=0x7f02000d;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f02000e;
     }
     public static final class id {
         public static final int TV1=0x7f0c0014;

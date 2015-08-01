@@ -16,11 +16,11 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_measure_uv"
-        android:icon="@drawable/action_search"
+        android:icon="@drawable/ic_menu_goto"
         android:title="@string/action_measure_uv"
         android:showAsAction="ifRoom|withText" />
     <item android:id="@+id/action_sync"
-          android:icon="@drawable/action_search"
+          android:icon="@drawable/ic_menu_refresh"
           android:title="@string/action_sync"
           android:showAsAction="ifRoom|withText" />
 </menu><!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/UITest_withDrawer/app/src/main/res/menu/main.xml -->

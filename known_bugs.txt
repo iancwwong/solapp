@@ -1,0 +1,4 @@
+= KNOWN BUGS
+
+* Opening multiple sunscreen notification dialog boxes, exiting (through home button on phone), then going back to the app - will cause everlasting phone vibration
+
