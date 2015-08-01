@@ -24,7 +24,23 @@ For the mobile application, the code can be compiled and run by the following st
 	NOTE: It is strongly not advisable to run this app using a simulator, as by default, it has no bluetooth capabilities and the program will halt.
 	7. Select OK. This will load the code to the chosen android device as an application, and will automatically be run.
 
+For the Arduino program, the code can be compiled and run by the following steps:
+	1. Download the Windows Installer for the latest Arduino IDE from https://www.arduino.cc/en/Main/Software.
+	2. Install all components of the software.
+	3. Open Sol.ino using the Arduino IDE.
+	4. Plug the Arduino into the computer.
+	5. In the IDE, go to Tools -> Board and select the Arduino model that is plugged in, then go to Tools -> Port and select the COM port that the Arduino is connected to.
+	6. Click on Upload near the top left corner of the IDE. This should compile and upload the program to the Arduino.
+	7. Once uploaded, the program will start running automatically.
+
 = ARDUINO CODE
+The Arduino is connected to a UV sensor. The UV Sensor outputs in units of volts. The Arduino takes multiple consecutive readings of the voltage and converts the average into units of milliwatts per centimetre squared by mapping the value ranges (from 0.99-2.8V to 0-15mW/cm^2). This makes one UV reading.
+
+Every second, one UV reading is taken and stored. Every minute, the average readings of that minute is calculated and stored. This is how the Arduino measures and logs UV readings over time.
+
+The Arduino can send and receive bytes of data to a smartphone wirelessly using a Bluetooth module. If the Bluetooth module receives a byte that corresponds to a single UV read command, the Arduino will take a UV reading and send the value back. If a sync command is received, the Arduino will send back all the calculated minute averages since the last sync and restart the logging process from the beginning.
+
+There is a sunscreen re-apply reminder timer which counts up to 3 hours. When 3 hours is reached, the Arduino sends an alert message through Bluetooth, which corresponds to the user getting a sunscreen reminder message on the smartphone app, and will also start blinking an LED that is connected to the Arduino. A pushbutton connected to the Arduino is able to reset this timer when pushed. Pushing the button will also stop the LED from blinking, until the timer reaches 3 hours again.
 
 = APP CODE (BACKEND)
 To request information from the arduino, such as the current UV measurement or logged UV readings, the app writes a "command digit" into its bluetooth communication channel. 
