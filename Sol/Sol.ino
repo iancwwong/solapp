@@ -20,7 +20,7 @@
       - Arduino GND to the corresponding pushbutton pin
     
     
-  Adapted from code in the SparkFun codebase, licensed as "beerware"
+  Adapted from code in the SparkFun codebase, licensed as beerware
   https://github.com/sparkfun/ML8511_Breakout
 
   Written by New South Solutions
@@ -41,6 +41,7 @@
 #define MINUTES_PER_HOUR 60
 #define SECONDS_PER_HOUR SECONDS_PER_MINUTE*MINUTES_PER_HOUR
 #define MAX_MINUTES 6*MINUTES_PER_HOUR
+#define TIMER_HOURS 3 // timer limit before blinking led and sending reminder message
 
 // definitions for received bluetooth commands
 #define SYNC '0'
@@ -101,8 +102,8 @@ void loop() {
       seconds = 0;
     }
     
-    // timer is past 3 hours
-    if(timerSeconds >= 3*SECONDS_PER_HOUR) {
+    // timer is past limit
+    if(timerSeconds >= TIMER_HOURS*SECONDS_PER_HOUR) {
       // send reminder message if not sent yet
       if(!note_sent) {
         BT.println("#note&");
@@ -116,10 +117,12 @@ void loop() {
     }
   }
   
-  // if the button is pressed, reset led timer and reminder message flag
+  // if the button is pressed, reset led timer and reminder message flag, turn off led
   if (buttonIsPressed()) {
     timerSeconds = 0;
     note_sent = false;
+    ledOut = LOW;
+    digitalWrite(LED_PIN, ledOut);
   }
   
   // check if a command was sent over bluetooth
