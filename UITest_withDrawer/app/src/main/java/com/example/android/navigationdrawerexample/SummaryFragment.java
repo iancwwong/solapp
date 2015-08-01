@@ -28,8 +28,6 @@ public class SummaryFragment extends BaseFragment {
     }
 
     // Summary Code
-
-    SeekBar sb = null;
     CircleProgressBar pb = null;
 
     double MinVal = 0;
@@ -99,9 +97,6 @@ public class SummaryFragment extends BaseFragment {
         indicator.setStrokeColor(Color.LTGRAY); // outer color
         indicator.setStrokeWidth(1 * density);
         indicator.setOnPageChangeListener(listener);
-
-
-        sb = (SeekBar) findViewById(R.id.seekBar);
         pb = (CircleProgressBar)findViewById(R.id.progressBar);
 
         pb.main = this.main;
@@ -114,61 +109,34 @@ public class SummaryFragment extends BaseFragment {
         pb.tvBotLeft = this.tvBotLeft;
         pb.tvBotRight = this.tvBotRight;
 
-        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-                // this sends a PERCENTAGE only ...
-                double SendValue = MinVal + ((MaxVal - MinVal) * i / 100);
-
-                if (b) {
-                    pb.AnimateProgressTo(SendValue);
-                } else {
-                    pb.setCurVal(SendValue);
-                }
-
-                if (Mode == 1) {
-                    Mode1 = SendValue;
-                }
-                if (Mode == 2) {
-                    Mode2 = SendValue;
-                }
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
         SetMode1(); // init as View1
     }
 
     // ## HELPER FUNCTIONS
     public void ResetBars() {
         double CurrentPercent = 100 * (pb.getCurVal()) / (pb.getMax());
-        double NewPercent = (int)(100 * (float)CurVal/(float)MaxVal);
-        sb.setProgress((int)NewPercent);
         pb.mode = Mode;
         pb.setMin(MinVal);
         pb.setMax(MaxVal);
         pb.EndAnimation();
 
-        double NewVal = (CurrentPercent * MaxVal) / 100;
-        pb.setCurVal(NewVal);
-        pb.AnimateProgressTo(CurVal);
+        //Set animation as appropriate to the mode chosen
+        if (pb.mode == 1) {
+            //Current UV Measurement is being displayed
+            pb.setCurVal((float)main.currentUVValue);
+            pb.AnimateProgressTo(main.currentUVValue);
+        } else if (pb.mode == 2) {
+            //Current UV Exposure is being displayed
+            pb.setCurVal((float)main.currentExposurePerc);
+            pb.AnimateProgressTo(main.currentExposurePerc);
+        }
     }
 
     //For Current UV Readings
     public void SetMode1() {
         MinVal = 0;
         MaxVal = 15;
-        CurVal = Mode1;
+        CurVal = main.currentUVValue;
         Mode = 1;
         ResetBars();
     }
@@ -177,7 +145,7 @@ public class SummaryFragment extends BaseFragment {
     public void SetMode2() {
         MinVal = 0;
         MaxVal = 100;
-        CurVal = Mode2;
+        CurVal = main.currentExposurePerc;
         Mode = 2;
         ResetBars();
     }

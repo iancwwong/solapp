@@ -86,7 +86,9 @@ public class TrendsFragment extends BaseFragment {
         );
         datePicker.setAdapter(datePickerContent);
         //Default the selection to the most recent date
-        datePicker.setSelection(datePickerContent.getPosition(datePickerContent.getItem(datePickerContent.getCount()-1)));
+        if (!datePickerContent.isEmpty()) {
+            datePicker.setSelection(datePickerContent.getPosition(datePickerContent.getItem(datePickerContent.getCount() - 1)));
+        }
         //Set listeners for each selection
         datePicker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -126,6 +128,7 @@ public class TrendsFragment extends BaseFragment {
             //When no ".readings" file are on the device, disable all buttons
             // and graph nothing.
             prevDate.setEnabled(false);
+            nextDate.setEnabled(false);
 
             //when there is exactly 1 ".readings" file is on the device, set
             // the text label and graph the date file
@@ -134,8 +137,6 @@ public class TrendsFragment extends BaseFragment {
                 datesLabel.setText(dates.get(currDateIndex).replace(".readings", ""));
                 //Default the graph to display the current day
                 drawDailyReadingsGraph(dates.get(currDateIndex));
-                //set nextDate button to be disabled
-                nextDate.setEnabled(false);
             }
         } else {
             //Update the label - should be defaulted to most recent day logged
@@ -248,6 +249,7 @@ public class TrendsFragment extends BaseFragment {
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
         chart.getAxisRight().setEnabled(false); //  Disable right yaxis
         chart.getLegend().setEnabled(false); // Disable legend
+        chart.getAxisLeft().setAxisMaxValue((float)15);
         chart.invalidate(); // Refresh graph
     }
 

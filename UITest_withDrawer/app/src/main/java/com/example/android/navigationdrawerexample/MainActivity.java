@@ -116,7 +116,9 @@ public class MainActivity extends Activity {
     public static final int RECOMMENDED_EXPOSURE = 150;
 
     //Variables for activity
-    public double currentUVValue = 10.2;
+    public double currentUVValue = 0;
+    public double currentExposureLevel = 0;
+    public double currentExposurePerc = 0;
 
     public Thread syncThread;
     public Runnable syncRunnable;
@@ -198,7 +200,8 @@ public class MainActivity extends Activity {
                             //Write the readings to a file in internal storage
                             writeReadingsToFile(fileName, readings);
 
-                            //ToDo: Update the total perc exposed on the UI
+                            //Calculate and update the exposure level
+                            updateExposureLevel();
                         }
                         recDataString.delete(0, recDataString.length()); 					//clear all string data
                         dataInPrint = " ";
@@ -211,12 +214,7 @@ public class MainActivity extends Activity {
                             currentUVValue = Double.valueOf(currUVMeasurement);
                             Log.e("test","Current UV level: " + currentUVValue);
 
-                            //Refresh the circle progress bar
-                            Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
-                            if (f instanceof SummaryFragment) {
-                                ((SummaryFragment) f).pb.invalidate();
-                                ((SummaryFragment) f).pb.AnimateProgressTo(currentUVValue);
-                            }
+                            updateCurrentUVLevel();
                         }
                         recDataString.delete(0, recDataString.length());                    //clear all string data
                         dataInPrint = " ";
@@ -279,6 +277,9 @@ public class MainActivity extends Activity {
             }
         };
 
+        //Update the current uv levels and percentage
+        updateCurrentUVLevel();
+        updateExposureLevel();
     }
 
 
@@ -429,6 +430,7 @@ public class MainActivity extends Activity {
 
             default:
                 fragment = new SummaryFragment();
+                ((SummaryFragment) fragment).main = this;
                 break;
         }
         Bundle args = new Bundle();
@@ -673,6 +675,43 @@ public class MainActivity extends Activity {
     public long[] getVibratorPattern() {
         long pattern[] = {0,100,100};
         return pattern;
+    }
+
+    //## OTHER HELPER FUNCTIONS
+    //updates what's displayed on the "Current Exposure Level" within the circle progress bar
+    public void updateCurrentUVLevel() {
+        //Refresh the circle progress bar only for the current UV reading
+        Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+        if (f instanceof SummaryFragment) {
+            ((SummaryFragment) f).pb.invalidate();
+            ((SummaryFragment) f).ResetBars();
+        }
+    }
+
+    //updates what's displayed on the "Current Exposure Level" within the circle progress bar
+    // ie the percentage of exposurelevel
+    public void updateExposureLevel() {
+        //Calculate the new exposure level by reading the .readings file corresponding
+        // to the CURRENT day
+        String todayReadings = getCurrDate() + ".readings";
+        Vector<String> readData = readFile(todayReadings);
+        if (readData.size() > 0) {
+            for (String line : readData) {
+                String[] processed = line.split(",");
+                currentExposureLevel = currentExposureLevel + Double.parseDouble(processed[0]);
+            }
+        }
+
+        currentExposurePerc = currentExposureLevel / RECOMMENDED_EXPOSURE * 100;
+
+        Log.e("test","Percentage exposure: " + Double.toString(currentExposurePerc)+"%");
+
+        //Refresh the circle progress bar
+        Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+        if (f instanceof SummaryFragment) {
+            ((SummaryFragment) f).pb.invalidate();
+            ((SummaryFragment) f).ResetBars();
+        }
     }
 
     //## DEBUGGING HELPER FUNCTIONS

@@ -12,12 +12,9 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-/**
- * Created by Administrator on 7/30/2015.
- */
 public class CircleProgressBar extends View {
 
-    private double CurVal = 0;
+    private double CurVal;
     private double MinVal = 0;
     private double MaxVal = 10000;
 
@@ -54,11 +51,6 @@ public class CircleProgressBar extends View {
 
     public double getCurVal() {
         return CurVal;
-    }
-
-    public void setCurVal(double progress) {
-        this.CurVal = progress;
-        invalidate();
     }
 
     public void setCurVal(float progress) {
@@ -145,27 +137,32 @@ public class CircleProgressBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        //Determine percentage of the circle to draw
         float percent = (((float) CurVal) / ((float) MaxVal));
+        if (percent >= 1) {
+            this.setColor(Color.RED);
+        } else {
+            this.setColor(Color.BLUE);
+        }
 
         canvas.drawOval(rectF, backgroundPaint);
         float angle = 360 * (percent);
         canvas.drawArc(rectF, startAngle, angle, false, foregroundPaint);
 
-        /*((
-        // set the counter
+        // set the text in the circle
         TextView target = null;
-        if (mode == 1) { target = tx1; }
-        if (mode == 2) { target = tx2; }
-        String CenterText = String.valueOf((int)CurVal) + "\n/" + String.valueOf(MaxVal);
-        WriteText(target, CenterText);
+        if (mode == 1) {
+            WriteText(tx1, String.valueOf(main.currentUVValue));
+        } else if (mode == 2) {
+            //String centerText = String.valueOf(main.currentExposureLevel) + "\n/" + String.valueOf(MaxVal);
+            String centerText = String.valueOf(main.currentExposurePerc) + "%";
+            WriteText(tx2, centerText);
+        }
 
         WriteText(tvTopLeft, "Mode: " + String.valueOf(mode));
         WriteText(tvTopRight, "Cur: " + String.valueOf(getCurVal()));
         WriteText(tvBotLeft, "Min: " + String.valueOf(getMin()));
         WriteText(tvBotRight, "Max: " + String.valueOf(getMax()));
-        */
-
-        WriteText(tx1, String.valueOf(main.currentUVValue));
 
     }
 

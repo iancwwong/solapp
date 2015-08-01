@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -117,20 +118,25 @@ public class WeeklyTrendsFragment extends BaseFragment{
     // - Sets listeners to the prevWeek and nextWeek buttons
     // - Updates the label to display the current week
     public void updateWeeklyGraphComponents() {
-        if (dates.size() == 0 || dates.size() == 1) {
+        if (weeks.size() == 0 || weeks.size() == 1) {
             //When no ".summary" file are on the device, disable all buttons
             // and graph nothing.
             prevWeek.setEnabled(false);
+            //set nextDate button to be disabled
+            nextWeek.setEnabled(false);
 
             //when there is exactly 1 ".summary" file is on the device, set
             // the text label and graph the date file
             if (weeks.size() == 1) {
                 //Update the label - should be defaulted to most recent day logged
-                weekLabel.setText(dates.get(currWeekIndex).replace(".readings", ""));
+                if (dates.size() == 0) {
+                    //Don't set the label
+                } else {
+                    weekLabel.setText(dates.get(currWeekIndex).replace(".readings", ""));
+                }
+
                 //Default the graph to display the current day
                 drawWeeklyGraph(weeks.get(currWeekIndex));
-                //set nextDate button to be disabled
-                nextWeek.setEnabled(false);
             }
         } else {
             weekLabel.setText("Week " + Integer.toString(currWeekIndex + 1));
@@ -251,6 +257,13 @@ public class WeeklyTrendsFragment extends BaseFragment{
         //Draw and customise Graph
         BarChart chart = (BarChart) findViewById(R.id.chart);
         chart.setData(barData);
+
+        //Extra Chart settings
+        chart.animateXY(2000, 2000);
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
+        chart.getAxisRight().setEnabled(false); //  Disable right yaxis
+        chart.getLegend().setEnabled(false); // Disable legend
+        chart.setDescription(""); //remove description
         chart.invalidate();
 
     }
