@@ -14,6 +14,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ValueFormatter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -254,7 +255,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
         //Prepare Bar Data - dates as x-values, data-set as individual
         BarData barData = new BarData(dates,dataSet);
 
-        //Draw and customise Graph
+        //Attach the data to the chart
         BarChart chart = (BarChart) findViewById(R.id.chart);
         chart.setData(barData);
 
@@ -264,6 +265,18 @@ public class WeeklyTrendsFragment extends BaseFragment{
         chart.getAxisRight().setEnabled(false); //  Disable right yaxis
         chart.getLegend().setEnabled(false); // Disable legend
         chart.setDescription(""); //remove description
+
+        //format the values on the y-axis
+        chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
+            private DecimalFormat format = new DecimalFormat("#.#");
+
+            @Override
+            public String getFormattedValue(float value) {
+                return format.format(value) + " %";
+            }
+        });
+
+        //Draw the chart
         chart.invalidate();
 
     }

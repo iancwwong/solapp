@@ -5,9 +5,6 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="7c8ec907-cb02-4cd9-b419-5faf9ee41eca" name="Default" comment="" />
     <ignored path="UITest_withDrawer.iws" />
@@ -78,9 +75,12 @@
       <file leaf-file-name="WeeklyTrendsFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/navigationdrawerexample/WeeklyTrendsFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.94153845">
-              <caret line="265" column="54" selection-start-line="265" selection-start-column="54" selection-end-line="265" selection-end-column="54" />
-              <folding />
+            <state vertical-scroll-proportion="0.66">
+              <caret line="256" column="0" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+              <folding>
+                <element signature="e#10780#10781#0" expanded="true" />
+                <element signature="e#10846#10847#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2101,9 +2101,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/android/navigationdrawerexample/WeeklyTrendsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94153845">
-          <caret line="265" column="54" selection-start-line="265" selection-start-column="54" selection-end-line="265" selection-end-column="54" />
-          <folding />
+        <state vertical-scroll-proportion="0.66">
+          <caret line="256" column="0" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+          <folding>
+            <element signature="e#10780#10781#0" expanded="true" />
+            <element signature="e#10846#10847#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
