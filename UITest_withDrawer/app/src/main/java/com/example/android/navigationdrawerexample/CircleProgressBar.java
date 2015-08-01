@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class CircleProgressBar extends View {
 
     private double CurVal;
@@ -151,11 +153,14 @@ public class CircleProgressBar extends View {
 
         // set the text in the circle
         TextView target = null;
+
+        //Format the numbers 2dp
+        DecimalFormat formatter = new DecimalFormat("#.##");
         if (mode == 1) {
-            WriteText(tx1, String.valueOf(main.currentUVValue));
+            String centerText = formatter.format(main.currentUVValue);
+            WriteText(tx1, centerText);
         } else if (mode == 2) {
-            //String centerText = String.valueOf(main.currentExposureLevel) + "\n/" + String.valueOf(MaxVal);
-            String centerText = String.valueOf(main.currentExposurePerc) + "%";
+            String centerText = formatter.format(main.currentExposurePerc) + "%";
             WriteText(tx2, centerText);
         }
 

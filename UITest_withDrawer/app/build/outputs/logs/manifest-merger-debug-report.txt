@@ -68,6 +68,8 @@ ADDED from AndroidManifest.xml:40:17
 		ADDED from AndroidManifest.xml:40:27
 activity#com.example.android.navigationdrawerexample.MainActivity
 ADDED from AndroidManifest.xml:44:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:47:13
 	android:label
 		ADDED from AndroidManifest.xml:46:13
 	android:name

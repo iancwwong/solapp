@@ -260,7 +260,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
         chart.setData(barData);
 
         //Extra Chart settings
-        chart.animateXY(2000, 2000);
+        chart.animateY(1500);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
         chart.getAxisRight().setEnabled(false); //  Disable right yaxis
         chart.getLegend().setEnabled(false); // Disable legend

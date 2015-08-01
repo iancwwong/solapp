@@ -112,6 +112,11 @@ public class MainActivity extends Activity {
     // String for MAC address
     private static String address;
 
+    //Arduino Command Constants
+    private static final String REQUEST_LOGS = "0";
+    private static final String REQUEST_CURRENT_UV = "1";
+
+
     //Other Constants
     public static final int RECOMMENDED_EXPOSURE = 150;
 
@@ -320,6 +325,9 @@ public class MainActivity extends Activity {
         //If it is not an exception will be thrown in the write method and finish() will be called
         mConnectedThread.write("x");
 
+        //Send a request to arduino for an initial reading of the current UV level
+        mConnectedThread.write(REQUEST_CURRENT_UV);
+
         syncThread = new Thread(syncRunnable);
         syncThread.start();
     }
@@ -371,19 +379,14 @@ public class MainActivity extends Activity {
         switch(item.getItemId()) {
         case R.id.action_sync:
             //Send to the arduino a request for its logs
-            mConnectedThread.write("0");
+            mConnectedThread.write(REQUEST_LOGS);
             ShortToast("Logs requested");
-
-            //TODO: Make updates across all fragments
-            //SummaryFragment.update();
-            //TrendsFragment.update();
-            //WeeklyTrendsFragment.update();
 
             return true;
 
         case R.id.action_measure_uv:
             //Send to the arduino a request for it's current UV measurement
-            mConnectedThread.write("1");    // Send "1" via Bluetooth
+            mConnectedThread.write(REQUEST_CURRENT_UV);
             ShortToast("Measuring UV");
 
             return true;
