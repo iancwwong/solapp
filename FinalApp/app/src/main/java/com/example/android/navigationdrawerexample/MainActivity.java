@@ -222,9 +222,6 @@ public class MainActivity extends Activity {
                             currentUVValue = Double.valueOf(currUVMeasurement);
                             Log.e("test", "Current UV level: " + currentUVValue);
 
-                            //DEBUGGIN
-                            currentUVValue = 10;
-
                             //Update the current UV reading on the UI
                             updateCurrentUVLevel();
 
@@ -688,7 +685,8 @@ public class MainActivity extends Activity {
         return pattern;
     }
 
-    //## OTHER HELPER FUNCTIONS
+    // ## UI Updating Functions
+
     //updates what's displayed on the "Current Exposure Level" within the circle progress bar
     public void updateCurrentUVLevel() {
         //Refresh the circle progress bar only for the current UV reading

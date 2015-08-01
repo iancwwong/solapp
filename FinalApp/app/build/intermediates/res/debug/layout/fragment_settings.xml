@@ -9,4 +9,4 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="SettingsView"
         android:id="@+id/textView3" />
-</LinearLayout><!-- From: file:/C:/Users/Ian/Desktop/UITest_withDrawer/app/src/main/res/layout/fragment_settings.xml -->
+</LinearLayout><!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/FinalApp/app/src/main/res/layout/fragment_settings.xml -->

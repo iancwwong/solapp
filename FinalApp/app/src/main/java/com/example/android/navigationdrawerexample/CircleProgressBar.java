@@ -289,7 +289,7 @@ public class CircleProgressBar extends View {
         } else if (main.currentUVValue >= 11) {
             feedback.add("Very High");
             feedback.add("Be careful! Apply SPF 30+ sunscreen, wear a long-sleeve shirt and trousers," +
-                    "and a wide hat. Avoid sun exposure throughout middday.");
+                    "and a wide hat. Avoid sun exposure throughout midday.");
         }
 
         return feedback;
