@@ -1,10 +1,13 @@
 == ACKNOWLEDGEMENTS
 Team New South Solutions would like to acknowledge the original authors of any code that are used for the project.
 
-
 The code to preparing bluetooth connection to a paired device was provided kindly by Harry Goodwill, with his permission to allow Team New South Solutions to use the code in this project. 
 The code was adapted from the following site:
             	https://wingoodharry.wordpress.com/2014/04/15/android-sendreceive-data-with-arduino-using-bluetooth-part-2/
+
+The Arduino code related to UV sensor processing was provided by SparkFun, licensed as beerware.
+The code was adapted from SparkFun's GitHub codebase for the ML8511 UV sensor:
+https://github.com/sparkfun/ML8511_Breakout
 
 
 == THE CODE OVERALL

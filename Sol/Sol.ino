@@ -20,7 +20,7 @@
       - Arduino GND to the corresponding pushbutton pin
     
     
-  Adapted from code in the SparkFun codebase, licensed as "beerware"/Creative Commons ShareAlike 4.0 International
+  Adapted from code in the SparkFun codebase, licensed as "beerware"
   https://github.com/sparkfun/ML8511_Breakout
 
   Written by New South Solutions
