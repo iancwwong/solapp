@@ -183,6 +183,8 @@ public class MainActivity extends Activity {
                     String readMessage = (String) msg.obj;                                                                // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);
 
+                    Log.e("test", "Message received: " + readMessage);
+
                     //Determine the type of message received
                     int EOLIndexMulti = recDataString.indexOf("~");                    // determine the end-of-line
                     int EOLIndexSingle = recDataString.indexOf("$");
@@ -194,16 +196,19 @@ public class MainActivity extends Activity {
                         int dataLength = dataInPrint.length();
                         if (recDataString.charAt(0) == '#')	{
                             //A valid message - extract each UV reading from string
+
                             String readingsString = recDataString.substring(1, dataLength);
-                            Vector<String> readings = new Vector<String>(Arrays.asList(
-                                    readingsString.split("\\+"))
-                            );
+                            if (!readingsString.equals("")) {
+                                Vector<String> readings = new Vector<String>(Arrays.asList(
+                                        readingsString.split("\\+"))
+                                );
 
-                            //Construct file name based on current date
-                            String fileName = getCurrDate() + ".readings";
+                                //Construct file name based on current date
+                                String fileName = getCurrDate() + ".readings";
 
-                            //Write the readings to a file in internal storage
-                            writeReadingsToFile(fileName, readings);
+                                //Write the readings to a file in internal storage
+                                writeReadingsToFile(fileName, readings);
+                            }
 
                             //Calculate and update the exposure level
                             updateExposureLevel();
@@ -655,30 +660,6 @@ public class MainActivity extends Activity {
         return newTimeStr.toString();
     }
 
-    //Based on a given UV value, provide more feedback to the user
-    public String getFeedback(String sensorReading) {
-        //Ensure there is a reading
-        if (sensorReading == null) {
-            return "No reading is currently supplied.";
-        }
-        String feedbackString = "";
-
-        //Convert sensorReading into a numerical value
-        Float sensorValue = Float.parseFloat(sensorReading);
-
-        //Analyse the value and provide feedback
-        if (sensorValue < 1) {
-            feedbackString = "This is a safe level, you are fine!";
-        } else if (sensorValue < 2) {
-            feedbackString = "You are in a dangerous condition. Consider applying sunscreen.";
-        } else {
-            //Some weird reading occurred
-            feedbackString = "A strange reading has occurred.";
-        }
-
-        return feedbackString;
-    }
-
     //Return a particular vibration pattern
     public long[] getVibratorPattern() {
         long pattern[] = {0,100,100};
@@ -705,6 +686,7 @@ public class MainActivity extends Activity {
         String todayReadings = getCurrDate() + ".readings";
         Vector<String> readData = readFile(todayReadings);
         if (readData.size() > 0) {
+            currentExposureLevel = 0; //overwrite the old value with new one
             for (String line : readData) {
                 String[] processed = line.split(",");
                 currentExposureLevel = currentExposureLevel + Double.parseDouble(processed[0]);

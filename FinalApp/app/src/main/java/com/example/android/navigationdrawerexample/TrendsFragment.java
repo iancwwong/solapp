@@ -28,11 +28,13 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ValueFormatter;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -214,12 +216,16 @@ public class TrendsFragment extends BaseFragment {
         ArrayList<Entry> dayReadings = new ArrayList<Entry>();
         ArrayList<String> timestamps = new ArrayList<String>();
 
+        //Format the reading into 2dp
+        DecimalFormat formatter = new DecimalFormat("#.##");
+
         //Process each line in the file by extracting reading and corr timestamp
         //Read the file
         Vector<String> dataRead = readFile(filename);
         for (int i = 0; i < dataRead.size(); i++) {
             String[] processedLine = dataRead.get(i).split(",");
-            dayReadings.add(new Entry(Float.parseFloat(processedLine[0]),i));
+            Double reading = Double.parseDouble(processedLine[0]);
+            dayReadings.add(new Entry(Float.parseFloat(formatter.format(reading)),i));
             timestamps.add(processedLine[1]);
         }
 
@@ -249,7 +255,16 @@ public class TrendsFragment extends BaseFragment {
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // Put axis on bot
         chart.getAxisRight().setEnabled(false); //  Disable right yaxis
         chart.getLegend().setEnabled(false); // Disable legend
-        chart.getAxisLeft().setAxisMaxValue((float)15);
+        chart.getAxisLeft().setAxisMaxValue((float) 15);
+        //format the values on the y-axis
+        chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
+            private DecimalFormat format = new DecimalFormat("#.##");
+
+            @Override
+            public String getFormattedValue(float value) {
+                return format.format(value);
+            }
+        });
         chart.invalidate(); // Refresh graph
     }
 
