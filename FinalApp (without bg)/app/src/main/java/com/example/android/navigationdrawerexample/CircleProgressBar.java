@@ -150,11 +150,11 @@ public class CircleProgressBar extends View {
             if (main.currentUVValue < 3) {
                 this.setColor(Color.rgb(0,218,122)); //a shade of green
             } else if (main.currentUVValue < 8) {
-                this.setColor(Color.rgb(255,199,84)); //a shade of yello
+                this.setColor(Color.rgb(255,199,84)); //a shade of yellow
             } else if (main.currentUVValue < 11) {
                 this.setColor(Color.rgb(255,158,82)); //orange
             } else if (main.currentUVValue >= 11) {
-                this.setColor(Color.rgb(255,68,68));
+                this.setColor(Color.rgb(255,68,68)); //red
             }
 
             //Display the measurement
@@ -168,13 +168,13 @@ public class CircleProgressBar extends View {
         } else if (mode == 2) {
             //Determine the colour
             if (main.currentExposurePerc < 33) {
-                this.setColor(Color.rgb(0,153,51)); //a shade of green
+                this.setColor(Color.rgb(0,218,122)); //a shade of green
             } else if (main.currentExposurePerc < 80) {
-                this.setColor(Color.BLUE);
+                this.setColor(Color.rgb(255,199,84)); //a shade of yellow
             } else if (main.currentExposurePerc < 100) {
-                this.setColor(Color.rgb(255,153,0)); //orange
+                this.setColor(Color.rgb(255,158,82)); //orange
             } else if (main.currentExposurePerc >= 100) {
-                this.setColor(Color.RED);
+                this.setColor(Color.rgb(255,68,68)); //red
             }
 
             //Display the percentage
