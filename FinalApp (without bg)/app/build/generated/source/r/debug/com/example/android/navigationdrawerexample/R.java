@@ -343,16 +343,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_title_indicator_text_color=0x7f060007;
         public static final int default_underline_indicator_selected_color=0x7f060008;
         public static final int line_color=0x7f060009;
-        public static final int vpi__background_holo_dark=0x7f06000a;
-        public static final int vpi__background_holo_light=0x7f06000b;
-        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f06000c;
-        public static final int vpi__bright_foreground_disabled_holo_light=0x7f06000d;
-        public static final int vpi__bright_foreground_holo_dark=0x7f06000e;
-        public static final int vpi__bright_foreground_holo_light=0x7f06000f;
-        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f060010;
-        public static final int vpi__bright_foreground_inverse_holo_light=0x7f060011;
-        public static final int vpi__dark_theme=0x7f060012;
-        public static final int vpi__light_theme=0x7f060013;
+        public static final int red=0x7f06000a;
+        public static final int vpi__background_holo_dark=0x7f06000b;
+        public static final int vpi__background_holo_light=0x7f06000c;
+        public static final int vpi__bright_foreground_disabled_holo_dark=0x7f06000d;
+        public static final int vpi__bright_foreground_disabled_holo_light=0x7f06000e;
+        public static final int vpi__bright_foreground_holo_dark=0x7f06000f;
+        public static final int vpi__bright_foreground_holo_light=0x7f060010;
+        public static final int vpi__bright_foreground_inverse_holo_dark=0x7f060011;
+        public static final int vpi__bright_foreground_inverse_holo_light=0x7f060012;
+        public static final int vpi__dark_theme=0x7f060013;
+        public static final int vpi__light_theme=0x7f060014;
     }
     public static final class dimen {
         public static final int default_circle_indicator_gap=0x7f070000;
@@ -457,11 +458,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int none_paired=0x7f090007;
     }
     public static final class style {
-        public static final int TextAppearance_TabPageIndicator=0x7f0a0000;
-        public static final int Theme_PageIndicatorDefaults=0x7f0a0001;
-        public static final int Widget=0x7f0a0002;
-        public static final int Widget_IconPageIndicator=0x7f0a0003;
-        public static final int Widget_TabPageIndicator=0x7f0a0004;
+        public static final int CustomActionBarTheme=0x7f0a0000;
+        public static final int MyTheme=0x7f0a0001;
+        public static final int TextAppearance_TabPageIndicator=0x7f0a0002;
+        public static final int Theme_PageIndicatorDefaults=0x7f0a0003;
+        public static final int Widget=0x7f0a0004;
+        public static final int Widget_IconPageIndicator=0x7f0a0005;
+        public static final int Widget_TabPageIndicator=0x7f0a0006;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

@@ -84,8 +84,7 @@ public class CircleProgressBar extends View {
     }
 
     public void setColor(int color) {
-        //this.color = color;
-        backgroundPaint.setColor(adjustAlpha(color, 0.3f));
+        backgroundPaint.setColor(Color.rgb(226,226,226)); //shade of grey
         foregroundPaint.setColor(color);
 
         invalidate();
@@ -115,7 +114,7 @@ public class CircleProgressBar extends View {
         BackStrokeWidth = 30;
 
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        backgroundPaint.setColor(BackColor);
+        backgroundPaint.setColor(Color.rgb(212,212,212));
         backgroundPaint.setStyle(Paint.Style.STROKE);
         backgroundPaint.setStrokeWidth(BackStrokeWidth);
 
@@ -149,13 +148,13 @@ public class CircleProgressBar extends View {
         if (mode == 1) {
             //Determine the colour
             if (main.currentUVValue < 3) {
-                this.setColor(Color.rgb(0,153,51)); //a shade of green
+                this.setColor(Color.rgb(0,218,122)); //a shade of green
             } else if (main.currentUVValue < 8) {
-                this.setColor(Color.BLUE);
+                this.setColor(Color.rgb(255,199,84)); //a shade of yello
             } else if (main.currentUVValue < 11) {
-                this.setColor(Color.rgb(255,153,0)); //orange
+                this.setColor(Color.rgb(255,158,82)); //orange
             } else if (main.currentUVValue >= 11) {
-                this.setColor(Color.RED);
+                this.setColor(Color.rgb(255,68,68));
             }
 
             //Display the measurement

@@ -37,6 +37,9 @@ import java.util.Vector;
  */
 public class WeeklyTrendsFragment extends BaseFragment{
 
+    //Parent Main Activity
+    public MainActivity main;
+
     //UI components
     private Button prevWeek;
     private Button nextWeek;
@@ -56,7 +59,6 @@ public class WeeklyTrendsFragment extends BaseFragment{
         BaseLayout = R.layout.fragment_weekly_trends;
     }
 
-
     @Override
     public void init() {
         //Retrieve all the dates that have recordings, and insert filler dates
@@ -70,6 +72,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
         prevWeek = (Button) findViewById(R.id.prevWeek);
         nextWeek = (Button) findViewById(R.id.nextWeek);
         weekLabel = (TextView) findViewById(R.id.weekLabel);
+        //weekLabel.setTypeface(main.appFont);
 
         //Initialise spinner
         weekPicker = (Spinner) findViewById(R.id.weekPicker);

@@ -9,32 +9,18 @@
         <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\classes-3090cbc07fd8877491c2a2b4846dab7abf4a99ca.jar" />
     </item>
     <item
-        jar="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jar="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\pre-dexed\debug\classes-6c2d0cc5061db115e84bedf94bf3c9c508931176.jar" />
+        <dex dex="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\pre-dexed\debug\classes-496ae59ada294a550ef02d1e587241fff8c752ff.jar" />
     </item>
     <item
-        jar="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
+        jar="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="caa3221876e67a86b578e7a728dce6dfb7b2c8a7">
-        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\pre-dexed\debug\classes-9e0dbd2641179870af2f0a0a116680ffb1096373.jar" />
-    </item>
-    <item
-        jar="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-9d221ce40e26a2a2ed730de8834f88a2cadfae2c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Ian\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.1.2\c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349\MPAndroidChart-v2.1.2.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349">
-        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\MPAndroidChart-v2.1.2-a4ee3e932cc3b6507c7c641886e81057e1fd9873.jar" />
+        <dex dex="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\pre-dexed\debug\classes-e51fb1fd059664ddf5219741dc4416039335ebf7.jar" />
     </item>
     <item
         jar="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
@@ -44,25 +30,11 @@
         <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\classes-eff3707a032d927ddfb500b57423580190508a74.jar" />
     </item>
     <item
-        jar="C:\Users\Ian\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-db74b8764674adf9bf4bb9a3cfac35d5713579cc.jar" />
-    </item>
-    <item
         jar="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
         <dex dex="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\pre-dexed\debug\classes-b5bd050ab7d2d4ccff3cc2abcdbdabd4a6212df0.jar" />
-    </item>
-    <item
-        jar="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="caa3221876e67a86b578e7a728dce6dfb7b2c8a7">
-        <dex dex="C:\Users\Ian\Desktop\FinalApp\app\build\intermediates\pre-dexed\debug\classes-36eaa96510e4f3db25009d30ec9bfb48684f167d.jar" />
     </item>
     <item
         jar="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
@@ -72,11 +44,39 @@
         <dex dex="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-6007b037c717e2a917aeb406d6bab8ff0ba29b5b.jar" />
     </item>
     <item
+        jar="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.2-SNAPSHOT\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="caa3221876e67a86b578e7a728dce6dfb7b2c8a7">
+        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\FinalApp\app\build\intermediates\pre-dexed\debug\classes-9e0dbd2641179870af2f0a0a116680ffb1096373.jar" />
+    </item>
+    <item
         jar="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-2d51d1eeff624afbbdfccda677299080f61ed921.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ian\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-db74b8764674adf9bf4bb9a3cfac35d5713579cc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Ian\Desktop\FinalApp (without bg)\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-c44fa5aa80c7806c006ca4e158ed00c661cc242c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ian\.gradle\caches\modules-2\files-2.1\com.github.PhilJay\MPAndroidChart\v2.1.2\c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349\MPAndroidChart-v2.1.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c8b27ecdbeb3fb2cac5c662407ffcb7ce5872349">
+        <dex dex="C:\Users\Ian\Desktop\TUC\solapp\UITest_withDrawer\app\build\intermediates\pre-dexed\debug\MPAndroidChart-v2.1.2-a4ee3e932cc3b6507c7c641886e81057e1fd9873.jar" />
     </item>
 
 </items>

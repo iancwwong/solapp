@@ -44,6 +44,9 @@ import java.util.Vector;
 public class TrendsFragment extends BaseFragment {
 
     // ## ATTRIBUTES
+    //Parent Main Activity
+    public MainActivity main;
+
     //UI Components
     private Button prevDate;
     private Button nextDate;

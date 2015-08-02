@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -95,6 +96,9 @@ public class MainActivity extends Activity {
     private CharSequence mTitle;
     private String[] mDrawerTitles;
 
+    //Font style
+    public Typeface appFont;
+
     //BT attributes
     Handler bluetoothIn;
     final int handlerState = 0;        				 //used to identify handler message
@@ -132,6 +136,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set the font
+        appFont = Typeface.createFromAsset(this.getAssets(),"Lato-Regular.ttf");
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerTitles = getResources().getStringArray(R.array.drawer_titles);
@@ -431,10 +438,12 @@ public class MainActivity extends Activity {
 
             case 1:
                 fragment = new TrendsFragment();
+                ((TrendsFragment) fragment).main = this;
                 break;
 
             case 2:
                 fragment = new WeeklyTrendsFragment();
+                ((WeeklyTrendsFragment) fragment).main = this;
                 break;
 
             case 3:

@@ -9,13 +9,13 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="0dp"
         android:layout_weight="0.26"></LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="182dp"
+        android:layout_height="150dp"
         android:layout_weight="0.39">
 
         <RelativeLayout
@@ -102,14 +102,14 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/titles1"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="5px"
+            android:layout_marginBottom="5px" />
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/titles1"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_marginTop="5px"
-        android:layout_marginBottom="5px" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -129,12 +129,12 @@
             android:layout_weight="0.15" />
 
         <TextView
-            android:layout_width="352dp"
-            android:layout_height="63dp"
+            android:layout_width="330dp"
+            android:layout_height="70dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/subFeedbackText"
             android:textSize="20dp"
-            android:gravity="center"
+            android:gravity="center|top"
             android:layout_weight="0.53" />
     </LinearLayout>
 

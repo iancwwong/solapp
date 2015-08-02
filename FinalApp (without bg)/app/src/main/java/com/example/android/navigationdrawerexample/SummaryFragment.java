@@ -49,8 +49,16 @@ public class SummaryFragment extends BaseFragment {
 
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
 
+        //Bind labels
+        TextView uvIndexLabel = (TextView) findViewById(R.id.uvIndexLabel);
+        //uvIndexLabel.setTypeface(main.appFont);
+        TextView recExposureLabel = (TextView) findViewById(R.id.recExposureLabel);
+        //recExposureLabel.setTypeface(main.appFont);
+
         feedbackText = (TextView) findViewById(R.id.feedbackText);
+        //feedbackText.setTypeface(main.appFont);
         subFeedbackText = (TextView) findViewById(R.id.subFeedbackText);
+        //subFeedbackText.setTypeface(main.appFont);
 
         ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
             @Override
@@ -89,7 +97,7 @@ public class SummaryFragment extends BaseFragment {
 //        indicator.setStrokeWidth(2 * density);
 
         indicator.setPageColor(Color.WHITE); // inside the stroke
-        indicator.setFillColor(Color.BLACK); // current
+        indicator.setFillColor(Color.rgb(51, 51, 51));
         indicator.setStrokeColor(Color.LTGRAY); // outer color
         indicator.setStrokeWidth(1 * density);
         indicator.setOnPageChangeListener(listener);
@@ -98,7 +106,9 @@ public class SummaryFragment extends BaseFragment {
         pb.main = this.main;
 
         pb.tx1 = (TextView)findViewById(R.id.text1);
+        //pb.tx1.setTypeface(main.appFont);
         pb.tx2 = (TextView)findViewById(R.id.text2);
+        //pb.tx2.setTypeface(main.appFont);
 
         pb.feedbackText = this.feedbackText;
         pb.subFeedbackText = this.subFeedbackText;
