@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_weight="0.26"></LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:layout_weight="0.39">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="213dp">
+
+            <com.example.android.navigationdrawerexample.CircleProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:progress="65"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="277dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/progressBar"
+                android:layout_alignEnd="@+id/progressBar"
+                android:layout_alignLeft="@+id/progressBar"
+                android:layout_alignStart="@+id/progressBar">
+
+                <LinearLayout
+                    android:id="@+id/page_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="185dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="65dp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/uvIndexLabel"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="UV Index" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/page_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center" >
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="185dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="65dp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="0" />
+
+                    <TextView
+                        android:id="@+id/recExposureLabel"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="daily exposure" />
+
+                </LinearLayout>
+
+            </android.support.v4.view.ViewPager>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/titles1"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="5px"
+        android:layout_marginBottom="5px" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
+        android:weightSum="1"
+        android:layout_weight="0.27"
+        android:gravity="center|top">
+
+        <TextView
+            android:layout_width="332dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/feedbackText"
+            android:textSize="45dp"
+            android:gravity="center"
+            android:layout_weight="0.15" />
+
+        <TextView
+            android:layout_width="352dp"
+            android:layout_height="63dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/subFeedbackText"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_weight="0.53" />
+    </LinearLayout>
+
+</LinearLayout>
