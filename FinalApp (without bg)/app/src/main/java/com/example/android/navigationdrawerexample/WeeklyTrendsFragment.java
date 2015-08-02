@@ -137,7 +137,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
                 if (dates.size() == 0) {
                     //Don't set the label
                 } else {
-                    weekLabel.setText(dates.get(currWeekIndex).replace(".readings", ""));
+                    weekLabel.setText("Week 1");
                 }
 
                 //Default the graph to display the current day
