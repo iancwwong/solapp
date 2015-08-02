@@ -243,6 +243,7 @@ public class TrendsFragment extends BaseFragment {
         graphData.setCircleColor(getResources().getColor(R.color.line_color));
         graphData.setValueTextSize(13); // Datapoint text sizes
         chart.setScaleYEnabled(false); // Don't scroll in y direction
+        chart.getXAxis().setDrawGridLines(false); //disable grid lines for y-axis
 
         //If file has no readings, set description to indicate this
         if (dataRead.size() == 0) {

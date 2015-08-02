@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -268,6 +269,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
         chart.getAxisRight().setEnabled(false); //  Disable right yaxis
         chart.getLegend().setEnabled(false); // Disable legend
         chart.setDescription(""); //remove description
+        chart.getXAxis().setDrawGridLines(false); //disable grid lines for y-axis
 
         //format the values on the y-axis
         chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
@@ -279,20 +281,18 @@ public class WeeklyTrendsFragment extends BaseFragment{
             }
         });
 
-        //Set the maximum exposure percentage to be dynamic with regard to maximum value
+        //Set maximum value for chart of 100 if applicable
         if (chart.getYMax() <= 100) {
             chart.getAxisLeft().setAxisMaxValue((float) 100);
-        } else if (chart.getYMax() <= 200) {
-            chart.getAxisLeft().setAxisMaxValue((float) 200);
-        } else if (chart.getYMax() <= 300) {
-            chart.getAxisLeft().setAxisMaxValue((float) 300);
         } else {
-            //Do nothing - default to maximum value in chart
+            //days when exposures exceed 100% - set a limit line of 100 instead
+            LimitLine limitLine = new LimitLine((float) 100);
+            chart.getAxisLeft().addLimitLine(limitLine);
         }
 
         //Draw the chart
         chart.invalidate();
-
+        
     }
 
     // creates a summary file for each ".readings" file

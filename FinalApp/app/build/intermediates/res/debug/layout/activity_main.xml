@@ -20,7 +20,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_blur"
+    >
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
@@ -45,4 +47,4 @@
         android:dividerHeight="0dp"
         android:background="#111"/>
 </android.support.v4.widget.DrawerLayout>
-<!-- From: file:/Users/RyanLiddle/Downloads/solapp-master/solapp/FinalApp/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/FinalApp/app/src/main/res/layout/activity_main.xml -->
