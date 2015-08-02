@@ -448,6 +448,7 @@ public class MainActivity extends Activity {
 
             case 3:
                 fragment = new SettingsFragment();
+                ((SettingsFragment) fragment).main = this;
                 break;
 
             default:

@@ -23,4 +23,4 @@
           android:icon="@drawable/ic_menu_refresh"
           android:title="@string/action_sync"
           android:showAsAction="ifRoom|withText" />
-</menu><!-- From: file:/C:/Users/Ian/Desktop/FinalApp%20(without%20bg)/app/src/main/res/menu/main.xml -->
+</menu><!-- From: file:/C:/Users/Ian/Desktop/TUC/solapp/FinalApp%20(without%20bg)/app/src/main/res/menu/main.xml -->
