@@ -215,6 +215,9 @@ public class WeeklyTrendsFragment extends BaseFragment{
             dates.add(new String(string.replace(".summary","")));
         }
 
+        //Format to 2dp
+        DecimalFormat formatter = new DecimalFormat("#.##");
+
         //Prepare the data set for the chart
         String dataSetName = "Exposures for the week";
         int i = 0;
@@ -247,7 +250,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
                 }
             }
             Double percExposure = totalExposure / RECOMMENDED_EXPOSURE * 100;
-            entries.add(new BarEntry(Float.parseFloat(Double.toString(percExposure)),i)); //something was weird casting a double to float
+            entries.add(new BarEntry(Float.parseFloat(formatter.format(percExposure)),i)); //something was weird casting a double to float
             i = i + 1;
         }
         BarDataSet dataSet = new BarDataSet(entries,dataSetName);
@@ -268,13 +271,24 @@ public class WeeklyTrendsFragment extends BaseFragment{
 
         //format the values on the y-axis
         chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
-            private DecimalFormat format = new DecimalFormat("#.#");
+            private DecimalFormat format = new DecimalFormat("#.##");
 
             @Override
             public String getFormattedValue(float value) {
                 return format.format(value) + " %";
             }
         });
+
+        //Set the maximum exposure percentage to be dynamic with regard to maximum value
+        if (chart.getYMax() <= 100) {
+            chart.getAxisLeft().setAxisMaxValue((float) 100);
+        } else if (chart.getYMax() <= 200) {
+            chart.getAxisLeft().setAxisMaxValue((float) 200);
+        } else if (chart.getYMax() <= 300) {
+            chart.getAxisLeft().setAxisMaxValue((float) 300);
+        } else {
+            //Do nothing - default to maximum value in chart
+        }
 
         //Draw the chart
         chart.invalidate();

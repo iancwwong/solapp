@@ -179,8 +179,14 @@ public class CircleProgressBar extends View {
             }
 
             //Display the percentage
-            String centerText = formatter.format(main.currentExposurePerc) + "%";
+            //String centerText = formatter.format(main.currentExposurePerc) + "%";
+            String centerText = "19.62%";
             WriteText(tx2, centerText);
+            //Adjust the text size depending on length of text
+            tx2.setTextSize((float) 65); //default size
+            if (centerText.length() > 5) {
+                tx2.setTextSize((float) 50);
+            }
 
             //Display the corresponding feedback
             WriteText(feedbackText, getExposureFeedback(main.currentExposurePerc).get(0));
