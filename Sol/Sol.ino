@@ -46,6 +46,7 @@
 // definitions for received bluetooth commands
 #define SYNC '0'
 #define SINGLE_READ '1'
+#define REMINDER '2'
 
 // creates a virtual bluetooth serial port
 SoftwareSerial BT(10, 11);
@@ -137,6 +138,8 @@ void loop() {
       refMillis = millis();
     } else if(bt_in == SINGLE_READ) {
       sendSingle(readUV());
+    } else if(bt_in == REMINDER) {
+      BT.println("#note&");
     }
   }
 }
