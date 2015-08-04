@@ -53,7 +53,7 @@ public class WeeklyTrendsFragment extends BaseFragment{
     private int currWeekIndex;
 
     //Constants
-    public static final int RECOMMENDED_EXPOSURE = 150;
+    public static final int RECOMMENDED_EXPOSURE = 40;
 
     public WeeklyTrendsFragment() {
         BaseLayout = R.layout.fragment_weekly_trends;

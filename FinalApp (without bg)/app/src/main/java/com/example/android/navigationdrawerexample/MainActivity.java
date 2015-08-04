@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
 
 
     //Other Constants
-    public static final int RECOMMENDED_EXPOSURE = 150;
+    public static final int RECOMMENDED_EXPOSURE = 40;
 
     //Variables for activity
     public double currentUVValue = 0;

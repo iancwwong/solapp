@@ -60,9 +60,6 @@ public class TrendsFragment extends BaseFragment {
     //Other attributes
     private ViewPager pager;
 
-    //Constants
-    public static final int RECOMMENDED_EXPOSURE = 150;
-
     public TrendsFragment() {
         BaseLayout = R.layout.fragment_trends;
     }
