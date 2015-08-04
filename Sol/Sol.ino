@@ -41,12 +41,12 @@
 #define MINUTES_PER_HOUR 60
 #define SECONDS_PER_HOUR SECONDS_PER_MINUTE*MINUTES_PER_HOUR
 #define MAX_MINUTES 6*MINUTES_PER_HOUR
-#define TIMER_HOURS 3 // timer limit before blinking led and sending reminder message
+#define TIMER_LIMIT_SECONDS 3*SECONDS_PER_HOUR // timer limit before blinking led and sending reminder message
 
 // definitions for received bluetooth commands
 #define SYNC '0'
 #define SINGLE_READ '1'
-#define REMINDER '2'
+#define LIMIT_BREAK '2'
 
 // creates a virtual bluetooth serial port
 SoftwareSerial BT(10, 11);
@@ -104,7 +104,7 @@ void loop() {
     }
     
     // timer is past limit
-    if(timerSeconds >= TIMER_HOURS*SECONDS_PER_HOUR) {
+    if(timerSeconds >= TIMER_LIMIT_SECONDS) {
       // send reminder message if not sent yet
       if(!note_sent) {
         BT.println("#note&");
@@ -138,8 +138,10 @@ void loop() {
       refMillis = millis();
     } else if(bt_in == SINGLE_READ) {
       sendSingle(readUV());
-    } else if(bt_in == REMINDER) {
+    } else if(bt_in == LIMIT_BREAK) {
+      timerSeconds = TIMER_LIMIT_SECONDS;
       BT.println("#note&");
+      note_sent = true;
     }
   }
 }
