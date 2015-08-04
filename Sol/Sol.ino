@@ -46,6 +46,7 @@
 // definitions for received bluetooth commands
 #define SYNC '0'
 #define SINGLE_READ '1'
+#define REMINDER '2'
 
 // creates a virtual bluetooth serial port
 SoftwareSerial BT(10, 11);
@@ -82,7 +83,7 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   
   // set the data rate for the Bluetooth port
-  BT.begin(9600);
+  BT.begin(9600);//Serial.begin(9600);
   
   // store reference time
   refMillis = millis();
@@ -137,6 +138,8 @@ void loop() {
       refMillis = millis();
     } else if(bt_in == SINGLE_READ) {
       sendSingle(readUV());
+    } else if(bt_in == REMINDER) {
+      BT.println("#note&");
     }
   }
 }
@@ -163,6 +166,7 @@ void sendSingle(float val) {
   BT.print(val);
   BT.print('$');
   BT.println();
+  //Serial.print("sent single");Serial.println(val);
 }
 
 // reads the uv sensor pin and converts the voltage into mW/cm^2
