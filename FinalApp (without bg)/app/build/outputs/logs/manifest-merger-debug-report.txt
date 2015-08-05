@@ -50,7 +50,7 @@ MERGED from com.android.support:support-v4:21.0.3:16:5
 		ADDED from AndroidManifest.xml:33:9
 	android:logo
 		ADDED from AndroidManifest.xml:31:9
-activity#com.example.android.navigationdrawerexample.DeviceListActivity
+activity#com.example.android.solapp.DeviceListActivity
 ADDED from AndroidManifest.xml:35:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:38:13
@@ -68,7 +68,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:41:17
 	android:name
 		ADDED from AndroidManifest.xml:41:27
-activity#com.example.android.navigationdrawerexample.MainActivity
+activity#com.example.android.solapp.MainActivity
 ADDED from AndroidManifest.xml:45:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:48:13
