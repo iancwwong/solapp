@@ -18,8 +18,11 @@
     Mini Pushbutton:
       - Arduino pin 2 to a pushbutton pin
       - Arduino GND to the corresponding pushbutton pin
-    
-    
+
+    LED:
+      - Arduino pin 12 to LED anode (longer leg)
+      - Arduino GND to LED cathode (shorter leg)
+  
   Adapted from code in the SparkFun codebase, licensed as beerware
   https://github.com/sparkfun/ML8511_Breakout
 
@@ -32,7 +35,7 @@
 // pin definitions
 #define UV_PIN A0 // pin for uv sensor output
 #define REF_3V3 A1 // reference 3.3V power on the Arduino board
-#define LED_PIN 13 // pin for led
+#define LED_PIN 12 // pin for led
 #define BUTTON_PIN 2 // pin for pushbutton
 
 // time definitions
@@ -40,13 +43,12 @@
 #define SECONDS_PER_MINUTE 60
 #define MINUTES_PER_HOUR 60
 #define SECONDS_PER_HOUR SECONDS_PER_MINUTE*MINUTES_PER_HOUR
-#define MAX_MINUTES 6*MINUTES_PER_HOUR
+#define MAX_MINUTES 6*MINUTES_PER_HOUR // maximum storage size for arduino uno
 #define TIMER_LIMIT_SECONDS 3*SECONDS_PER_HOUR // timer limit before blinking led and sending reminder message
 
 // definitions for received bluetooth commands
 #define SYNC '0'
 #define SINGLE_READ '1'
-#define LIMIT_BREAK '2'
 
 // creates a virtual bluetooth serial port
 SoftwareSerial BT(10, 11);
@@ -138,10 +140,6 @@ void loop() {
       refMillis = millis();
     } else if(bt_in == SINGLE_READ) {
       sendSingle(readUV());
-    } else if(bt_in == LIMIT_BREAK) {
-      timerSeconds = TIMER_LIMIT_SECONDS;
-      BT.println("#note&");
-      note_sent = true;
     }
   }
 }
